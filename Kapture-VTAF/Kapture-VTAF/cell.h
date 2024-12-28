@@ -22,7 +22,7 @@ namespace kpt
 		cell& operator=(const cell& other) = delete;	// Affectation interdite
 	public:
 
-		cell(const std::pair<int, int>& coords, const enum_cell& type, const token& t_token, const flag& f_flag);
+		cell(const std::pair<int, int>& coords, const enum_cell& type, const token* t_token, const flag* f_flag);
 		~cell();
 	};
 }
