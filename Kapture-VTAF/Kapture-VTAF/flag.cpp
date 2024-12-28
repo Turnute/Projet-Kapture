@@ -18,7 +18,8 @@ namespace kpt
 	{
 		if (isDropped && cmpt == 0)
 		{
-			// TODO : reset à la position initiale
+			this->position = this->origin;
+			this->isDropped = false;
 		}
 		else if (isDropped)
 			cmpt--;
