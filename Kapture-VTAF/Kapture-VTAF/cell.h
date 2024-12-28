@@ -17,6 +17,7 @@ namespace kpt
 		const token* t_token;				// Pion sur la case (peut être nullptr)
 		const flag* f_flag;					// Drapeau sur la case (peut être nullptr)							
 
+	public:
 		cell() = delete;								// Constructeur par défaut interdit
 		cell(const cell& other) = delete;				// Copie interdite
 		cell& operator=(const cell& other) = delete;	// Affectation interdite
