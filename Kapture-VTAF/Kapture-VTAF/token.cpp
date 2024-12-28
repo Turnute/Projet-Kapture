@@ -1,4 +1,4 @@
 //  TOURENNE    FERRY
-//  Vincent     Antonny
+//  Vincent     Antony
 
 #include "token.h"
