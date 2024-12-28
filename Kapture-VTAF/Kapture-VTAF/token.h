@@ -17,7 +17,7 @@ namespace kpt
 		const int max_travel;				// Points max de déplacement
 		int curr_travel;					// Points actuels
 		const std::pair<int, int> origin;	// Position d'origine
-		flag* f_flag;						// Drapeau (peut être nullptr)
+		const flag* f_flag;					// Drapeau (peut être nullptr)
 		const Player& owner;				// Joueur propriétaire (référence constante)
 
 		token() = delete;							// Constructeur par défaut interdit
@@ -33,15 +33,19 @@ namespace kpt
 		}
 
 		// Getters
+		const enum_token getType() const { return type; }
 		const std::string& getName() const { return name; }
 		const Player& getOwner() const { return owner; }
-		flag* getFlag() const { return f_flag; }
+		const flag* getFlag() const { return f_flag; }
 
 		// Méthodes à redéfinir
 		virtual void battle(token& other) = 0;
 		virtual void takeFlag(const flag& f_flag) = 0;
 
-
+	protected:
+		void assignFlag(const flag& f_flag) {
+			this->f_flag = &f_flag;
+		}
 	};
 
 	class scout : public token {
@@ -50,11 +54,25 @@ namespace kpt
 			: token(SCOUT, name, 5, origin, owner) {}
 
 		void battle(token& other) override {
-			// TODO
+			// TO DO : un des combattants a un flag
+			switch (other.getType())
+			{
+			case SCOUT:
+				// Rien ne se passe
+				break;
+			case ELITE:
+				// this perd
+				break;
+			case FODDER:
+				// this perd
+				break;
+			default:
+				break;
+			}
 		}
 
 		void takeFlag(const flag& f_flag) override {
-			// TODO
+			// Rien ne se passe !
 		}
 	};
 
@@ -64,11 +82,25 @@ namespace kpt
 			: token(ELITE, name, 3, origin, owner) {}
 
 		void battle(token& other) override {
-			// TODO
+			// TO DO : un des combattants a un flag
+			switch (other.getType())
+			{
+			case SCOUT:
+				// other perd
+				break;
+			case ELITE:
+				// les deux reculent d'une case. Si pas possible, alors perd
+				break;
+			case FODDER:
+				// fodder perd
+				break;
+			default:
+				break;
+			}
 		}
 
 		void takeFlag(const flag& f_flag) override {
-			// TODO
+			assignFlag(f_flag);
 		}
 	};
 
@@ -78,11 +110,25 @@ namespace kpt
 			: token(FODDER, name, 2, origin, owner) {}
 
 		void battle(token& other) override {
-			// TODO
+			// TO DO : un des combattants a un flag
+			switch (other.getType())
+			{
+			case SCOUT:
+				// other perd
+				break;
+			case ELITE:
+				// this perd
+				break;
+			case FODDER:
+				// 50/50 this ou other perd
+				break;
+			default:
+				break;
+			}
 		}
 
 		void takeFlag(const flag& f_flag) override {
-			// TODO
+			assignFlag(f_flag);
 		}
 	};
 }
