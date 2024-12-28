@@ -1,5 +1,5 @@
 //  TOURENNE    FERRY
-//  Vincent     Antonny
+//  Vincent     Antony
 
 #pragma once
 #include <utility>
@@ -14,6 +14,7 @@ namespace kpt
 
 	public:
 		flag(const std::pair<int, int>& origin);
+		void drop();	// Met le flag en état "lâché"
 		void update();	// Méthode de mise à jour
 	};
 }
