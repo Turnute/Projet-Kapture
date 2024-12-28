@@ -2,6 +2,11 @@
 //  Vincent     Antonny
 
 #pragma once
+#include <vector>
+#include <utility>
+#include <string>
+#include "token.h"
+
 namespace kpt
 {
 	class Player
@@ -10,7 +15,7 @@ namespace kpt
 		std::vector<token> tokens;
 		std::vector<std::pair<int, int>> visitedCells;
 	public:
-		Player(const std::string& name, const std::vector<std::pair<enum_token, std::pair<int, int>>> tokens);
+		Player(const std::string& name, const std::vector<std::pair<enum_token, std::pair<int, int>>>& tokens);
 	};
 }
 

@@ -3,12 +3,14 @@
 
 #pragma once
 #include <string>
+#include <utility>
+#include <vector>
 #include "flag.h"
-#include "Player.h"
-#include <memory>
 
 namespace kpt
 {
+	class Player;
+
 	enum enum_token { SCOUT, ELITE, FODDER };
 
 	class token {
@@ -132,4 +134,3 @@ namespace kpt
 		}
 	};
 }
-

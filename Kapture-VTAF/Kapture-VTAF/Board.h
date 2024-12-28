@@ -3,7 +3,9 @@
 
 #pragma once
 #include <vector>
+#include <utility>
 #include "cell.h"
+
 namespace kpt
 {
 	template <int x, int y> class Board

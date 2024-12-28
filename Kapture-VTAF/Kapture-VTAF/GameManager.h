@@ -2,11 +2,12 @@
 //  Vincent     Antonny
 
 #pragma once
-#include <vector>
-#include "Player.h"
 #include <string>
+#include <vector>
 #include "token.h"
+#include "Player.h"
 #include "Renderer.h"
+
 namespace kpt
 {
 	class GameManager
