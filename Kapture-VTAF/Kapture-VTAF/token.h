@@ -39,10 +39,11 @@ namespace kpt
 		const std::string& getName() const { return name; }
 		const Player& getOwner() const { return owner; }
 		const flag* getFlag() const { return f_flag; }
+		bool hasFlag() const { return f_flag != nullptr; }
 
 		// Méthodes à redéfinir
-		virtual void battle(token& other) = 0;
-		virtual void takeFlag(const flag& f_flag) = 0;
+		virtual int battle(const token& other) = 0;			// Renvoie le résultat du combat (0 égalité, 1 victoire, 2 défaite)
+		virtual void takeFlag(const flag& f_flag) = 0;	// Prend le drapeau
 
 	protected:
 		void assignFlag(const flag& f_flag) {
@@ -55,22 +56,10 @@ namespace kpt
 		scout(const std::string& name, const std::pair<int, int>& origin, const Player& owner)
 			: token(SCOUT, name, 5, origin, owner) {}
 
-		void battle(token& other) override {
-			// TO DO : un des combattants a un flag
-			switch (other.getType())
-			{
-			case SCOUT:
-				// Rien ne se passe
-				break;
-			case ELITE:
-				// this perd
-				break;
-			case FODDER:
-				// this perd
-				break;
-			default:
-				break;
-			}
+		int battle(const token& other) override {
+			if (other.getType() == SCOUT || other.hasFlag())
+				return 0;
+			else return 2;
 		}
 
 		void takeFlag(const flag& f_flag) override {
@@ -83,22 +72,12 @@ namespace kpt
 		elite(const std::string& name, const std::pair<int, int>& origin, const Player& owner)
 			: token(ELITE, name, 3, origin, owner) {}
 
-		void battle(token& other) override {
-			// TO DO : un des combattants a un flag
-			switch (other.getType())
-			{
-			case SCOUT:
-				// other perd
-				break;
-			case ELITE:
-				// les deux reculent d'une case. Si pas possible, alors perd
-				break;
-			case FODDER:
-				// fodder perd
-				break;
-			default:
-				break;
-			}
+		int battle(const token& other) override {
+			if (this->hasFlag())
+				return 2;
+			else if (other.getType() != ELITE || other.hasFlag())
+				return 1;
+			else return 0;
 		}
 
 		void takeFlag(const flag& f_flag) override {
@@ -111,22 +90,12 @@ namespace kpt
 		fodder(const std::string& name, const std::pair<int, int>& origin, const Player& owner)
 			: token(FODDER, name, 2, origin, owner) {}
 
-		void battle(token& other) override {
-			// TO DO : un des combattants a un flag
-			switch (other.getType())
-			{
-			case SCOUT:
-				// other perd
-				break;
-			case ELITE:
-				// this perd
-				break;
-			case FODDER:
-				// 50/50 this ou other perd
-				break;
-			default:
-				break;
-			}
+		int battle(const token& other) override {
+			if (this->hasFlag() || other.getType() == ELITE)
+				return 2;
+			else if (other.hasFlag() || other.getType() == SCOUT)
+				return 1;
+			else return 0;
 		}
 
 		void takeFlag(const flag& f_flag) override {

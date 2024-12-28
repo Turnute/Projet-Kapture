@@ -12,11 +12,17 @@ namespace kpt
 {
 	class GameManager
 	{
-		const std::vector<Player> players;	// Liste des joueurs
+		std::vector<Player> players;		// Liste des joueurs
 		// const Board<int, int> board;		// Plateau de jeu
 		Renderer renderer;					// Affichage
+		std::vector<flag> flags;			// Liste de Drapeaux
+
 	public:
 		GameManager(const std::string& filePath);
+
+		// Affrontement entre tokens
+		void battle(token& t1, token& t2);
+		void resetToken(token& t_token);
 
 		// Déroulement d'un tour
 		void moveToken(const Player& owner, const std::pair<int, int>& token, const std::pair<int, int>& destination);
