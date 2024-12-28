@@ -23,13 +23,13 @@ namespace kpt
 		const flag* f_flag;					// Drapeau (peut être nullptr)
 		const Player& owner;				// Joueur propriétaire (référence constante)
 
-		token() = delete;							// Constructeur par défaut interdit
-		token(const token&) = delete;				// Copie interdite
-		token& operator=(const token&) = delete;	// Affectation interdite
-
 	public:
 		token(const enum_token& type, const std::string& name, int max_travel, const std::pair<int, int>& origin, const Player& owner)
 			: type(type), name(name), max_travel(max_travel), curr_travel(0), origin(origin), position(origin), f_flag(nullptr), owner(owner) {}
+
+		token() = delete;							// Constructeur par défaut interdit
+		token(const token&) = delete;				// Copie interdite
+		token& operator=(const token&) = delete;	// Affectation interdite
 
 		virtual ~token() {
 			f_flag = nullptr;
