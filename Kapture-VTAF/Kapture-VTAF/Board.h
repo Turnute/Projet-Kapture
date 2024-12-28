@@ -10,7 +10,7 @@ namespace kpt
 {
 	template <int x, int y> class Board
 	{
-		std::vector<std::vector<cell>> cells;
+		std::vector<std::vector<cell>> cells;	// Plateau (vector de vector de cases)
 	public:
 		Board(const std::vector<std::pair<enum_cell, std::pair<int, int>>>& cells);
 	};

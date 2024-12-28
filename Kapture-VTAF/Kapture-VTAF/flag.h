@@ -8,11 +8,11 @@ namespace kpt
 {
 	class flag
 	{
-		const std::pair<int, int> origin;
-		bool isDropped;
-		int cmpt;
+		const std::pair<int, int> origin;	// Coordonnées d'origine
+		bool isDropped;						// Check si on a été lâché ou non
+		int cmpt;							// Compteur
 	public:
 		flag(const std::pair<int, int>& origin);
-		void update();
+		void update();	// Méthode de mise à jour
 	};
 }

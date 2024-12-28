@@ -12,9 +12,9 @@ namespace kpt
 {
 	class GameManager
 	{
-		const std::vector<Player> players;
-		// const Board<int, int> board;
-		Renderer renderer;
+		const std::vector<Player> players;	// Liste des joueurs
+		// const Board<int, int> board;		// Plateau de jeu
+		Renderer renderer;					// Affichage
 	public:
 		GameManager(const std::string& filePath);
 
