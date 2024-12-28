@@ -47,9 +47,7 @@ namespace kpt
 		virtual void takeFlag(const flag& f_flag) = 0;	// Prend le drapeau
 
 	protected:
-		void assignFlag(const flag& f_flag) {
-			this->f_flag = &f_flag;
-		}
+		void assignFlag(const flag& f_flag);
 	};
 
 	class scout : public token {
@@ -57,11 +55,7 @@ namespace kpt
 		scout(const std::string& name, const std::pair<int, int>& origin, const Player& owner)
 			: token(SCOUT, name, 5, origin, owner) {}
 
-		int battle(const token& other) override {
-			if (other.getType() == SCOUT || other.hasFlag())
-				return 0;
-			else return 2;
-		}
+		int battle(const token& other) override;
 
 		void takeFlag(const flag& f_flag) override {
 			// Rien ne se passe !
@@ -73,17 +67,9 @@ namespace kpt
 		elite(const std::string& name, const std::pair<int, int>& origin, const Player& owner)
 			: token(ELITE, name, 3, origin, owner) {}
 
-		int battle(const token& other) override {
-			if (this->hasFlag())
-				return 2;
-			else if (other.getType() != ELITE || other.hasFlag())
-				return 1;
-			else return 0;
-		}
+		int battle(const token& other) override;
 
-		void takeFlag(const flag& f_flag) override {
-			assignFlag(f_flag);
-		}
+		void takeFlag(const flag& f_flag) override;
 	};
 
 	class fodder : public token {
@@ -91,16 +77,8 @@ namespace kpt
 		fodder(const std::string& name, const std::pair<int, int>& origin, const Player& owner)
 			: token(FODDER, name, 2, origin, owner) {}
 
-		int battle(const token& other) override {
-			if (this->hasFlag() || other.getType() == ELITE)
-				return 2;
-			else if (other.hasFlag() || other.getType() == SCOUT)
-				return 1;
-			else return 0;
-		}
+		int battle(const token& other) override;
 
-		void takeFlag(const flag& f_flag) override {
-			assignFlag(f_flag);
-		}
+		void takeFlag(const flag& f_flag) override;
 	};
 }
