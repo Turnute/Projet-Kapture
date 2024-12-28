@@ -19,6 +19,7 @@ namespace kpt
 		const int max_travel;				// Points max de déplacement
 		int curr_travel;					// Points actuels
 		const std::pair<int, int> origin;	// Position d'origine
+		std::pair<int, int> position;		// Position actuelle
 		const flag* f_flag;					// Drapeau (peut être nullptr)
 		const Player& owner;				// Joueur propriétaire (référence constante)
 
@@ -28,7 +29,7 @@ namespace kpt
 
 	public:
 		token(const enum_token& type, const std::string& name, int max_travel, const std::pair<int, int>& origin, const Player& owner)
-			: type(type), name(name), max_travel(max_travel), curr_travel(0), origin(origin), f_flag(nullptr), owner(owner) {}
+			: type(type), name(name), max_travel(max_travel), curr_travel(0), origin(origin), position(origin), f_flag(nullptr), owner(owner) {}
 
 		virtual ~token() {
 			f_flag = nullptr;
