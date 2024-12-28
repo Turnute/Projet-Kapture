@@ -14,10 +14,15 @@ namespace kpt
 
 		for (auto& t : tokens)
 		{
-			auto id = std::find(ids.begin(), ids.end(), t.first);
-			if (id == ids.end()) ids.emplace_back(t.first, 1);
-			else id->second++;
-			std::string id_str = std::to_string(id->second);
+			std::string id_str = "";
+			auto id = std::find_if(ids.begin(), ids.end(), [&t](const std::pair<enum_token, int>& p) { return p.first == t.first; });
+			if (id == ids.end())
+			{
+				ids.emplace_back(t.first, 1);
+				id_str = "1";
+			}
+			else id_str = std::to_string(id->second++);
+
 
 			switch (t.first)
 			{
