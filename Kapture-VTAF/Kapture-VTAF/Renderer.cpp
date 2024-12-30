@@ -5,11 +5,16 @@
 
 #include <iomanip>
 #include <iostream>
+#include <utility>
+
+kpt::Renderer::Renderer(const std::vector<Player>& players, const Board& board) : players(players), board(board) {}
 
 void kpt::Renderer::render() const
 {
-    const int width = 10;
-    const int heigth = 10; //TODO: real size
+    const std::pair<int, int> dim = board.getDimensions();
+    const int width = dim.first;
+    const int heigth = dim.second;
+
     std::cout << std::setw(6);
     std::string bar = "  ";
     for (int i = 0; i < width; i++){
