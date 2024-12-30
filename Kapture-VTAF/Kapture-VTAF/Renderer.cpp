@@ -28,7 +28,8 @@ void kpt::Renderer::render() const
         std::cout << bar << std::endl;
         std::cout << i << " ";
         for (int j = 0; j < width; j++){
-            std::cout << "|   "; //TODO: current token at (i, j)
+            std::cout << "|";
+            std::cout << *(board.seek(i, j));
         }
         std::cout << "|" << std::endl;
     }

@@ -26,7 +26,7 @@ namespace kpt
 			}
 		}
 
-		const std::pair<int, int> const getDimensions() const
+		std::pair<int, int> const getDimensions() const
 		{
 			return std::make_pair(width, height);
 		}
@@ -35,8 +35,12 @@ namespace kpt
 		{
 			return &cells[pos.first+pos.second*height];
 		}
+
+		const cell* seek(const int& posx, const int& posy) const
+		{
+			return &cells[posx + posy * height];
+		}
 	};
 
 	class Board : public T_Board<10, 10> {};
 }
-
