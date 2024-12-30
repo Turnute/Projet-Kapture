@@ -9,11 +9,11 @@
 
 namespace kpt
 {
-	template <int width, int height> class Board
+	template <int width, int height> class T_Board
 	{
 		std::vector<cell> cells;	// Plateau (vector de vector de cases)
 	public:
-		Board(const std::vector<enum_cell>& cells)
+		T_Board(const std::vector<enum_cell>& cells)
 		{
 			if (cells.size() != width * height) throw std::invalid_argument("Invalid number of cells");
 
@@ -26,10 +26,17 @@ namespace kpt
 			}
 		}
 
+		const std::pair<int, int> const getDimensions() const
+		{
+			return std::make_pair(width, height);
+		}
+
 		cell* seek(const std::pair<int, int>& pos)
 		{
 			return &cells[pos.first+pos.second*height];
 		}
 	};
+
+	class Board : public T_Board<10, 10> {};
 }
 

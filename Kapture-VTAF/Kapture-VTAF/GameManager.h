@@ -4,8 +4,9 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "token.h"
+#include <memory>
 #include "Player.h"
+#include "Board.h"
 #include "Renderer.h"
 
 namespace kpt
@@ -13,7 +14,7 @@ namespace kpt
 	class GameManager
 	{
 		std::vector<Player> players;		// Liste des joueurs
-		// const Board<int, int> board;		// Plateau de jeu
+		const Board board;					// Plateau de jeu
 		Renderer renderer;					// Affichage
 		std::vector<flag> flags;			// Liste de Drapeaux
 
