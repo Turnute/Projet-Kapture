@@ -26,7 +26,7 @@ namespace kpt
 
 		~Player()
 		{
-			for (const auto& t : tokens)
+			for (token* t : tokens)
 				delete t;
 		}
 	};

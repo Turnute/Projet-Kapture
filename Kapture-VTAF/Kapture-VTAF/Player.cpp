@@ -12,10 +12,13 @@ namespace kpt
 	{
 		std::vector<std::pair<enum_token, int>> ids;
 
-		for (auto& t : tokens)
+		for (const std::pair<enum_token, std::pair<int, int>>& t : tokens)
 		{
 			std::string id_str = "";
-			auto id = std::find_if(ids.begin(), ids.end(), [&t](const std::pair<enum_token, int>& p) { return p.first == t.first; });
+			std::vector<std::pair<enum_token, int>>::iterator id = std::find_if(
+				ids.begin(), ids.end(), 
+				[&t](const std::pair<enum_token, int>& p) { return p.first == t.first; });
+
 			if (id == ids.end())
 			{
 				ids.emplace_back(t.first, 1);
