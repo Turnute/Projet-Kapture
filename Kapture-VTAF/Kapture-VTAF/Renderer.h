@@ -14,7 +14,7 @@ namespace kpt
 		//const Board<int, int>& board;		// Plateau
 	public:
 		Renderer(const std::vector<Player*>& players/*const Board<int, int>& board*/);
-		void const render();	// Affichage de l'état actuel de la partie
+		void render() const;	// Affichage de l'état actuel de la partie
 	};
 }
 
