@@ -6,6 +6,11 @@
 
 namespace kpt
 {
+    cell::cell(const std::pair<int, int>& coords, const enum_cell& type, const token* t_token, const flag* f_flag)
+        : coords(coords), type(type), t_token(t_token), f_flag(f_flag) {}
+
+    cell::~cell() {}
+
     std::ostream& kpt::operator<<(std::ostream& out, const cell& cell)
     {
         if (cell.t_token != nullptr)
