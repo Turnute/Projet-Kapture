@@ -28,7 +28,7 @@ namespace kpt
 	}
 	std::ostream& operator<<(std::ostream& out, const flag& flag)
 	{
-		out << flag.name;
+		out << flag.name << " ";
 		return out;
 	}
 }

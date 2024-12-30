@@ -46,6 +46,7 @@ namespace kpt
         out << token.name;
         if (token.hasFlag())
             out << "*";
+        else out << " ";
 
         return out;
     }
