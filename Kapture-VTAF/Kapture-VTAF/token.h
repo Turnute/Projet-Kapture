@@ -46,6 +46,9 @@ namespace kpt
 		virtual int battle(const token& other) = 0;			// Renvoie le résultat du combat (0 égalité, 1 victoire, 2 défaite)
 		virtual void takeFlag(const flag& f_flag) = 0;	// Prend le drapeau
 
+		// Affichage
+		friend std::ostream& operator<<(std::ostream& out, const token& token);
+
 	protected:
 		void assignFlag(const flag& f_flag);
 	};
