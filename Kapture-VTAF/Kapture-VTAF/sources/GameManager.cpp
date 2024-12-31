@@ -66,6 +66,16 @@ namespace kpt
 		// Reset le token à sa position initiale
 	}
 
+	void GameManager::playerTurn(const Player& player)
+	{
+
+	}
+
+	bool const GameManager::isOver()
+	{
+		return false;
+	}
+
 	void GameManager::gameLoop()
 	{
 		int currentPlayerindex = 0;
