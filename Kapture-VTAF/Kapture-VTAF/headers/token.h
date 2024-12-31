@@ -4,7 +4,6 @@
 #pragma once
 #include <string>
 #include <utility>
-#include <vector>
 #include "flag.h"
 
 namespace kpt
