@@ -16,13 +16,19 @@ namespace kpt
 	public:
 		T_Board(const std::vector<enum_cell>& cells)
 		{
-			if (cells.size() != width * height) throw std::invalid_argument("Invalid number of cells");
+			if (cells.size() != width * height) 
+				throw std::invalid_argument("Invalid number of cells");
 
 			for (int x = 0; x < width; x++)
 			{
 				for (int y = 0; y < height; y++)
 				{
-					this->cells.emplace_back(std::pair<int, int>(x, y), cells[x + y * height], nullptr, nullptr);
+					this->cells.emplace_back(
+						std::pair<int, int>(x, y), 
+						cells[x + y * height], 
+						nullptr, 
+						nullptr
+					);
 				}
 			}
 		}
@@ -44,7 +50,7 @@ namespace kpt
 	};
 
 	class Board : public T_Board<10, 10> {
-	public:
+		public:
 		explicit Board(const std::vector<enum_cell>& cells)
 			: T_Board(cells)
 		{

@@ -21,10 +21,10 @@ namespace kpt
 
 	public:
 		cell() = delete;								// Constructeur par défaut interdit
-		cell(const cell& other) = delete;				// Copie interdite
 		cell& operator=(const cell& other) = delete;	// Affectation interdite
 
 		cell(const std::pair<int, int>& coords, const enum_cell& type, const token* t_token, const flag* f_flag);
+		cell(const cell& other);
 		~cell();
 
 		friend std::ostream& operator<<(std::ostream& out, const cell& cell);
