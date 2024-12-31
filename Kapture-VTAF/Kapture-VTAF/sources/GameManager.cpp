@@ -1,7 +1,7 @@
 //  TOURENNE    FERRY
 //  Vincent     Antony
 
-#include "GameManager.h"
+#include "headers/GameManager.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
