@@ -131,6 +131,7 @@
     <ClCompile Include="cell.cpp" />
     <ClCompile Include="flag.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameParser.cpp" />
     <ClCompile Include="Kapture-VTAF.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -141,6 +142,7 @@
     <ClInclude Include="cell.h" />
     <ClInclude Include="flag.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameParser.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="token.h" />
