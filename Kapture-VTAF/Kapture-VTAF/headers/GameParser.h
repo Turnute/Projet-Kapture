@@ -11,10 +11,10 @@ namespace kpt
 {
 	class GameParser
 	{
-		std::vector<enum_cell> cells;
+		std::vector<enum_cell> cell_types;
 		std::vector<std::string> player_names;
 		std::vector<std::vector<std::pair<enum_token, std::pair<int, int>>>> player_tokens;
-		std::vector<std::pair<int, int>> player_flags;
+		std::vector<std::pair<int, int>> flag_locations;
 
 	public:
 		GameParser(const std::string& filePath);
@@ -29,6 +29,7 @@ namespace kpt
 		enum_cell const parseCell(const std::string& str);
 		enum_token const parseToken(const std::string& str);
 		std::pair<int, int> const parsePosition(const std::string& str);
+		void parsePlayerLine(const std::string& line, const int& player);
 	};
 }
 

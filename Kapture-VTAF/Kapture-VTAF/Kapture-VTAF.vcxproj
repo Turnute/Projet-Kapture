@@ -127,25 +127,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Board.cpp" />
-    <ClCompile Include="cell.cpp" />
-    <ClCompile Include="flag.cpp" />
-    <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="GameParser.cpp" />
-    <ClCompile Include="Kapture-VTAF.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="token.cpp" />
+    <ClInclude Include="headers\Board.h" />
+    <ClInclude Include="headers\cell.h" />
+    <ClInclude Include="headers\flag.h" />
+    <ClInclude Include="headers\GameManager.h" />
+    <ClInclude Include="headers\GameParser.h" />
+    <ClInclude Include="headers\Player.h" />
+    <ClInclude Include="headers\Renderer.h" />
+    <ClInclude Include="headers\token.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Board.h" />
-    <ClInclude Include="cell.h" />
-    <ClInclude Include="flag.h" />
-    <ClInclude Include="GameManager.h" />
-    <ClInclude Include="GameParser.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Renderer.h" />
-    <ClInclude Include="token.h" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="sources\Board.cpp" />
+    <ClCompile Include="sources\cell.cpp" />
+    <ClCompile Include="sources\flag.cpp" />
+    <ClCompile Include="sources\GameManager.cpp" />
+    <ClCompile Include="sources\GameParser.cpp" />
+    <ClCompile Include="sources\Player.cpp" />
+    <ClCompile Include="sources\Renderer.cpp" />
+    <ClCompile Include="sources\token.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

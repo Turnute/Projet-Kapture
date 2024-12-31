@@ -1,7 +1,7 @@
 //  TOURENNE    FERRY
 //  Vincent     Antony
 
-#include "headers/GameParser.h"
+#include "../headers/GameParser.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -25,19 +25,13 @@ namespace kpt
 			throw std::runtime_error("Unable to open file: " + filePath);
 
 		std::string line;
-
-		std::vector<enum_cell> cells;
-
 		int currentPlayer = 0;
-		std::vector<std::string> player_names;
-		std::vector<std::vector<std::pair<enum_token, std::pair<int, int>>>> player_tokens;
-		std::vector<std::pair<int, int>> player_flags;
 
 		// Construction du plateau
 		while (
-			std::getline(file, line)	// On lit une ligne valide
+			std::getline(file, line)	// On lit bien une ligne valide
 			&& !line.empty()			// La ligne n'est pas vide
-			&& line[0] != 'P'			// On ne passe pas à la définition d'un joueur
+			&& line[0] != 'P'			// On est pas sur la définition d'un joueur
 			)
 		{
 			std::stringstream ss(line);
@@ -45,7 +39,7 @@ namespace kpt
 
 			while (std::getline(ss, cell, ';')) {
 				if (!cell.empty()) {
-					cells.push_back(parseCell(cell));
+					cell_types.push_back(parseCell(cell));
 				}
 			}
 		}
@@ -66,24 +60,26 @@ namespace kpt
 			}
 
 			// Gestion des tokens et du flag
-			size_t endType = line.find(':');
-			std::string strType = line.substr(0, endType);
-
-			// Position du drapeau d'un joueur
-			if (strType == "flag")
-			{
-				std::string position = line.substr(endType + 2);
-				if (position.back() == ';')
-					position.pop_back();
-
-				player_flags[currentPlayer - 1] = parsePosition(position);
-				continue;
-			}
-
-			// Ligne listant les unités d'un type
-			enum_token currentType = parseToken(strType);
+			parsePlayerLine(line, currentPlayer);
 		}
 	}
+	std::vector<enum_cell> const GameParser::getCells()
+	{
+		return cell_types;
+	}
+	std::string const GameParser::getPlayerName(const int& i)
+	{
+		return player_names[i];
+	}
+	std::vector<std::pair<enum_token, std::pair<int, int>>> const GameParser::getPlayerTokens(const int& i)
+	{
+		return player_tokens[i];
+	}
+	std::pair<int, int> const GameParser::getPlayerFlag(const int& i)
+	{
+		return flag_locations[i];
+	}
+	
 	enum_cell const GameParser::parseCell(const std::string& str)
 	{
 		if (str == "empty")
@@ -118,5 +114,35 @@ namespace kpt
 		std::getline(ss, y);
 
 		return std::make_pair<int, int>(std::stoi(x), std::stoi(y));
+	}
+	
+	void GameParser::parsePlayerLine(const std::string& line, const int& player)
+	{
+		size_t endType = line.find(':');
+		std::string strType = line.substr(0, endType);
+		std::string positions = line.substr(endType + 2);
+
+		// Si c'est un Flag
+		if (strType == "flag")
+		{
+			// Retire le ";" final
+			if (positions.back() == ';')
+				positions.pop_back();
+
+			flag_locations[player - 1] = parsePosition(positions);
+			return;
+		}
+
+		// Ligne listant les unités d'un type
+		enum_token currentType = parseToken(strType);
+		std::stringstream ss(positions);
+		std::string pos;
+		while (std::getline(ss, pos, ';'))
+		{
+			if (!pos.empty())
+			{
+
+			}
+		}
 	}
 }
