@@ -64,4 +64,15 @@ namespace kpt
 
 		// Reset le token à sa position initiale
 	}
+
+	void GameManager::gameLoop()
+	{
+		int currentPlayerindex = 0;
+		while (!isOver())
+		{
+			Player currentPlayer = players[currentPlayerindex];
+			playerTurn(currentPlayer);
+			currentPlayerindex = (currentPlayerindex + 1) % players.size();
+		}
+	}
 }
