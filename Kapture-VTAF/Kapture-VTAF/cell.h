@@ -8,6 +8,8 @@
 
 namespace kpt
 {
+	class cell;
+	std::ostream& operator<<(std::ostream& out, const cell& cell);
 	enum enum_cell { EMPTY, FOREST, RIVER };
 
 	class cell

@@ -3,8 +3,9 @@
 
 #pragma once
 #include <stdexcept>
-#include <vector>
 #include <utility>
+#include <vector>
+
 #include "cell.h"
 
 namespace kpt
@@ -42,5 +43,11 @@ namespace kpt
 		}
 	};
 
-	class Board : public T_Board<10, 10> {};
+	class Board : public T_Board<10, 10> {
+	public:
+		explicit Board(const std::vector<enum_cell>& cells)
+			: T_Board(cells)
+		{
+		}
+	};
 }

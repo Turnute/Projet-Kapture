@@ -11,7 +11,7 @@ namespace kpt
 
     cell::~cell() {}
 
-    std::ostream& kpt::operator<<(std::ostream& out, const cell& cell)
+    std::ostream& operator<<(std::ostream& out, const cell& cell)
     {
         if (cell.t_token != nullptr)
             out << *(cell.t_token);
