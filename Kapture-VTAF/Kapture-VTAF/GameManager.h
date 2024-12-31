@@ -4,6 +4,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <map>
 #include <memory>
 #include "Player.h"
 #include "Board.h"
@@ -13,13 +14,16 @@ namespace kpt
 {
 	class GameManager
 	{
-		std::vector<Player> players;		// Liste des joueurs
-		const Board board;					// Plateau de jeu
+		std::map<int, Player> players;		// Liste des joueurs
+		Board board;						// Plateau de jeu
 		Renderer renderer;					// Affichage
-		std::vector<flag> flags;			// Liste de Drapeaux
 
 	public:
 		GameManager(const std::string& filePath);
+
+		// Parsing d'un fichier
+		enum_cell const parseCell(const std::string& str);
+		std::pair<int, int> const parsePosition(const std::string& str);
 
 		// Affrontement entre tokens
 		void battle(token& t1, token& t2);
