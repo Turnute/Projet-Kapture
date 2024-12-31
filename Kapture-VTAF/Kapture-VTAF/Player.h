@@ -20,9 +20,35 @@ namespace kpt
 		Player(const std::string& name, const std::vector<std::pair<enum_token, std::pair<int, int>>>& tokens,
 		       const std::pair<int, int>& f_flag);
 
-		Player(const Player&) = delete;
-		Player& operator=(const Player& other) = delete;
-		Player() = delete;
+		Player(): f_flag(flag("J1", {0, 0}))
+		{
+		}
+
+		Player(const Player& other): name(other.name), f_flag(other.f_flag)
+		{
+			if (this == &other) return;
+			for (token* t : other.tokens){
+				tokens.push_back(t);
+			}
+			for (std::pair<int, int> pair : other.visitedCells){
+				visitedCells.push_back(pair);
+			}
+
+		}
+
+		Player& operator=(const Player& other)
+		{
+			if (this == &other) return *this;
+			for (token* t : other.tokens){
+				tokens.push_back(t);
+			}
+			for (std::pair<int, int> pair : other.visitedCells){
+				visitedCells.push_back(pair);
+			}
+			this->f_flag = other.f_flag;
+
+			return *this;
+		}
 
 		~Player()
 		{

@@ -20,6 +20,16 @@ namespace kpt
 		void drop();	// Met le flag en état "lâché"
 		void update();	// Méthode de mise à jour
 
+		flag& operator=(const flag& other)
+		{
+			if (this == &other) return *this;
+			this->position = other.position;
+			this->isDropped = other.isDropped;
+			this->cmpt = other.cmpt;
+			//TODO jsp si faut copier le nom aussi vu qu'il est constant
+			return *this;
+		}
+
 		// Affichage
 		friend std::ostream& operator<<(std::ostream& out, const flag& flag);
 	};
