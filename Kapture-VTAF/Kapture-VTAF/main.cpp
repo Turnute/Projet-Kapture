@@ -8,9 +8,9 @@ int main()
 {
 	try {
 		std::string configFile = "../../Kapture.txt";
-		//kpt::GameManager game(configFile);
+		kpt::GameManager game(configFile);
 
-		//game.display();
+		game.display();
 
 		return 0;
 	}

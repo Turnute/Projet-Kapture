@@ -15,18 +15,19 @@ namespace kpt
 
 		board = Board(parser.getCells());
 
-		players.push_back(Player(
+		// Création et stockage des joueurs
+		players.reserve(2);
+		players.emplace_back(
 			parser.getPlayerName(0),
 			parser.getPlayerTokens(0), 
-			parser.getPlayerFlag(0)));
-
-		players.push_back(Player(
+			parser.getPlayerFlag(0));
+		players.emplace_back(
 			parser.getPlayerName(1),
 			parser.getPlayerTokens(1),
-			parser.getPlayerFlag(1)));
+			parser.getPlayerFlag(1));
 
 		// Insertion des joueurs dans la map
-		renderer = Renderer(players, board);
+		renderer = Renderer(this->players, this->board);
 	}
 
 	void GameManager::battle(token& t1, token& t2)

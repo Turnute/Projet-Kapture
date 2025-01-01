@@ -13,7 +13,15 @@ namespace kpt
         : players(nullptr), board(nullptr) {}
 
     Renderer::Renderer(const std::vector<Player>& players, const Board& board)
-        : players(&players), board(&board) {}
+        : players(&players), board(&board)
+    {
+        if (!this->players) {
+            std::cerr << "Players pointer is null!" << std::endl;
+        }
+        if (!this->board) {
+            std::cerr << "Board pointer is null!" << std::endl;
+        }
+    }
 
     Renderer& Renderer::operator=(const Renderer& other)
     {
@@ -43,8 +51,9 @@ namespace kpt
             std::cout << bar << std::endl;
             std::cout << i << " ";
             for (int j = 0; j < width; j++) {
+                const cell* currentCell = board->seek(i, j);
                 std::cout << "|";
-                std::cout << *(board->seek(i, j));
+                std::cout << *currentCell;
             }
             std::cout << "|" << std::endl;
         }

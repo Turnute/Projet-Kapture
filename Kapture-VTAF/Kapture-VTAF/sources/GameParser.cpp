@@ -9,6 +9,7 @@
 namespace kpt
 {
 	GameParser::GameParser(const std::string& filePath)
+		: player_names(), player_tokens(2), flag_locations(2)
 	{
 		// On suppose que le fichier lu suit le format suivant :
 		// type_cell;type_cell;type_cell;type_cell... sur 10 lignes et 10 colonnes
@@ -55,7 +56,7 @@ namespace kpt
 			if (line[0] == 'P')
 			{
 				currentPlayer = line[1] - '0';
-				player_names[currentPlayer - 1] = "P" + line[1];
+				player_names.push_back("P" + std::to_string(currentPlayer));
 				continue;
 			}
 
@@ -69,15 +70,15 @@ namespace kpt
 	}
 	std::string const GameParser::getPlayerName(const int& i)
 	{
-		return player_names[i];
+		return player_names.at(i);
 	}
 	std::vector<std::pair<enum_token, std::pair<int, int>>> const GameParser::getPlayerTokens(const int& i)
 	{
-		return player_tokens[i];
+		return player_tokens.at(i);
 	}
 	std::pair<int, int> const GameParser::getPlayerFlag(const int& i)
 	{
-		return flag_locations[i];
+		return flag_locations.at(i);
 	}
 	
 	enum_cell const GameParser::parseCell(const std::string& str)
@@ -129,7 +130,7 @@ namespace kpt
 			if (positions.back() == ';')
 				positions.pop_back();
 
-			flag_locations[player - 1] = parsePosition(positions);
+			flag_locations.at(player - 1) = parsePosition(positions);
 			return;
 		}
 
@@ -142,7 +143,7 @@ namespace kpt
 			if (!pos.empty())
 			{
 				std::pair<int, int> position = parsePosition(pos);
-				player_tokens[player - 1].push_back(std::make_pair(currentType, position));
+				player_tokens.at(player - 1).push_back(std::make_pair(currentType, position));
 			}
 		}
 	}

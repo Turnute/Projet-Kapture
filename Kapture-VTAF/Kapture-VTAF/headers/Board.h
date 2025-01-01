@@ -5,7 +5,6 @@
 #include <stdexcept>
 #include <utility>
 #include <vector>
-
 #include "cell.h"
 
 namespace kpt
@@ -26,7 +25,7 @@ namespace kpt
 				for (int y = 0; y < height; y++)
 				{
 					this->cells.emplace_back(
-						std::pair<int, int>(x, y), 
+						std::pair<int, int>(x, y),
 						cells[x + y * height], 
 						nullptr, 
 						nullptr
