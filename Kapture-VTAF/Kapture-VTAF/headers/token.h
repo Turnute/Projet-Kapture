@@ -37,6 +37,7 @@ namespace kpt
 		// Getters
 		const enum_token getType() const { return type; }
 		const std::string& getName() const { return name; }
+		const std::pair<int, int> getPosition() const { return position;  }
 		const Player& getOwner() const { return owner; }
 		const flag* getFlag() const { return f_flag; }
 		bool hasFlag() const { return f_flag != nullptr; }

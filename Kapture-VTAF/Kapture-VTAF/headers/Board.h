@@ -54,6 +54,15 @@ namespace kpt
 			else
 				return &cells[posx + posy * height];
 		}
+
+		void setToken(const std::pair<int, int>& pos, const token* t) {
+			cell* c = seek(pos);
+			if (c) c->setToken(t);
+		}
+		void setFlag(const std::pair<int, int>& pos, const flag* f) {
+			cell* c = seek(pos);
+			if (c) c->setFlag(f);
+		}
 	};
 
 	class Board : public T_Board<10, 10> {

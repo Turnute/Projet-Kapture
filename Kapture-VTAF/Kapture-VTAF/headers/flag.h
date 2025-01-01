@@ -20,6 +20,8 @@ namespace kpt
 		void drop();	// Met le flag en état "lâché"
 		void update();	// Méthode de mise à jour
 
+		const std::pair<int, int> getPosition() const { return position; }
+
 		flag& operator=(const flag& other)
 		{
 			if (this == &other) return *this;

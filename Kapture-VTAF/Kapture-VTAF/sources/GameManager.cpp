@@ -26,7 +26,15 @@ namespace kpt
 			parser.getPlayerTokens(1),
 			parser.getPlayerFlag(1));
 
-		// Insertion des joueurs dans la map
+		// Lien entre cells et token/flag
+		for (const Player& player : players) {
+			for (const token* token : player.getTokens()) {
+				board.setToken(token->getPosition(), token);
+			}
+			board.setFlag(player.getFlag().getPosition(), &player.getFlag());
+		}
+
+		// Création du renderer
 		renderer = Renderer(this->players, this->board);
 	}
 

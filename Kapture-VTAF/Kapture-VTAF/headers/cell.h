@@ -27,6 +27,9 @@ namespace kpt
 		cell(const cell& other);
 		~cell();
 
+		void setToken(const token* t) { t_token = t; }
+		void setFlag(const flag* f) { f_flag = f; }
+
 		friend std::ostream& operator<<(std::ostream& out, const cell& cell);
 	};
 }

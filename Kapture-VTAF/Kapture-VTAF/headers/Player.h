@@ -55,6 +55,9 @@ namespace kpt
 			for (token* t : tokens)
 				delete t;
 		}
+
+		const std::vector<token*>& getTokens() const { return tokens; }
+		const flag& getFlag() const { return f_flag; }
 	};
 }
 
