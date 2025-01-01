@@ -72,13 +72,30 @@ namespace kpt
 
 	}
 
-	void GameManager::checkSurroundings(const token& t_token)
+	void GameManager::checkSurroundings(std::pair<int, int> position)
 	{
 		// Regarde toutes les cases adjaçantes et :
 		//	lance des combats s'il le faut
 		//	récupére un drapeau s'il est là
 		//	met à jour les cases visités du joueur (fog)
+
+		for (int x = -1; x <= 1; x++)
+		{
+			for (int y = -1; y <= 1; y++)
+			{
+				if (x == 0 && y == 0) continue;
+				const cell* c = board.seek(position.first + x, position.second + y);
+				token* token = c->getToken();
+				if (c->getFlag() != nullptr)
+				{
+					token->takeFlag(*(c->getFlag()));
+					c->getFlag()->drop();
+				}
+				else if (token != nullptr) battle(*token, *token);
+			}
+		}
 	}
+
 	std::pair<int, int> askCoordinates(const std::string& message)
 	{
 		std::pair<int, int> coords;

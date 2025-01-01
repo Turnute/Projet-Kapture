@@ -28,6 +28,8 @@ namespace kpt
 		cell(const cell& other);
 		~cell();
 
+		flag* getFlag() const { return f_flag; }
+
 		friend std::ostream& operator<<(std::ostream& out, const cell& cell);
 	};
 }
