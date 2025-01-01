@@ -61,7 +61,7 @@ namespace kpt
 		}
 
 		const std::vector<token*>& getTokens() const { return tokens; }
-		const flag& getFlag() const { return f_flag; }
+		flag& getFlag() { return f_flag; }
 	};
 }
 

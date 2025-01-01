@@ -27,8 +27,8 @@ namespace kpt
 			parser.getPlayerFlag(1));
 
 		// Lien entre cells et token/flag
-		for (const Player& player : players) {
-			for (const token* token : player.getTokens()) {
+		for (Player& player : players) {
+			for (token* token : player.getTokens()) {
 				board.setToken(token->getPosition(), token);
 			}
 			board.setFlag(player.getFlag().getPosition(), &player.getFlag());

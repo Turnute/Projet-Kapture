@@ -11,7 +11,7 @@ namespace kpt
         return &player == &owner; //j'arrive pas à faire sans & donc pour l'instant on compare les adresses
     }
 
-    void token::assignFlag(const flag& f_flag)
+    void token::assignFlag(flag& f_flag)
     {
         this->f_flag = &f_flag;
     }
@@ -30,7 +30,7 @@ namespace kpt
         return 0;
     }
 
-    void elite::takeFlag(const flag& f_flag) {
+    void elite::takeFlag(flag& f_flag) {
         assignFlag(f_flag);
     }
 
@@ -42,7 +42,7 @@ namespace kpt
         return 0;
     }
 
-    void fodder::takeFlag(const flag& f_flag) {
+    void fodder::takeFlag(flag& f_flag) {
         assignFlag(f_flag);
     }
 

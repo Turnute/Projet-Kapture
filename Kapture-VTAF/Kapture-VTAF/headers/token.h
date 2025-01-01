@@ -43,15 +43,15 @@ namespace kpt
 		bool hasFlag() const { return f_flag != nullptr; }
 
 		// Méthodes à redéfinir
-		virtual int battle(const token& other) = 0;			// Renvoie le résultat du combat (0 égalité, 1 victoire, 2 défaite)
-		virtual void takeFlag(const flag& f_flag) = 0;	// Prend le drapeau
+		virtual int battle(const token& other) = 0;	// Renvoie le résultat du combat (0 égalité, 1 victoire, 2 défaite)
+		virtual void takeFlag(flag& f_flag) = 0;	// Prend le drapeau
 
 		// Affichage
 		friend std::ostream& operator<<(std::ostream& out, const token& token);
 		bool isOwnedBy(const Player& player) const;
 
 	protected:
-		void assignFlag(const flag& f_flag);
+		void assignFlag(flag& f_flag);
 	};
 
 	class scout : public token {
@@ -61,7 +61,7 @@ namespace kpt
 
 		int battle(const token& other) override;
 
-		void takeFlag(const flag& f_flag) override {
+		void takeFlag(flag& f_flag) override {
 			// Rien ne se passe !
 		}
 	};
@@ -73,7 +73,7 @@ namespace kpt
 
 		int battle(const token& other) override;
 
-		void takeFlag(const flag& f_flag) override;
+		void takeFlag(flag& f_flag) override;
 	};
 
 	class fodder : public token {
@@ -83,6 +83,6 @@ namespace kpt
 
 		int battle(const token& other) override;
 
-		void takeFlag(const flag& f_flag) override;
+		void takeFlag(flag& f_flag) override;
 	};
 }
