@@ -2,9 +2,20 @@
 //  Vincent     Antony
 
 #include <iostream>
+#include "./headers/GameManager.h"
 
 int main()
 {
-	std::cout << "Hello World!\n";
-	return 0;
+	try {
+		std::string configFile = "../../Kapture.txt";
+		//kpt::GameManager game(configFile);
+
+		//game.display();
+
+		return 0;
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Une erreur est survenue : " << e.what() << std::endl;
+		return 1;
+	}
 }

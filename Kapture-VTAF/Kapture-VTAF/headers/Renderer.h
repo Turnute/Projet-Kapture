@@ -10,10 +10,12 @@ namespace kpt
 {
 	class Renderer
 	{
-		const std::vector<Player>& players;	// Liste des joueurs
-		const Board& board;		// Plateau
+		const std::vector<Player>* players;	// Liste des joueurs
+		const Board* board;					// Plateau
 	public:
+		Renderer();
 		Renderer(const std::vector<Player>& players, const Board& board);
+		Renderer& operator=(const Renderer& other);
 		void render() const;	// Affichage de l'état actuel de la partie
 	};
 }

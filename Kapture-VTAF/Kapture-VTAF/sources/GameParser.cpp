@@ -141,7 +141,8 @@ namespace kpt
 		{
 			if (!pos.empty())
 			{
-
+				std::pair<int, int> position = parsePosition(pos);
+				player_tokens[player - 1].push_back(std::make_pair(currentType, position));
 			}
 		}
 	}

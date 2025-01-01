@@ -4,7 +4,6 @@
 #pragma once
 #include <string>
 #include <vector>
-#include <map>
 #include <memory>
 #include "Player.h"
 #include "Board.h"
@@ -15,9 +14,9 @@ namespace kpt
 {
 	class GameManager
 	{
-		std::vector<Player> players;		// Liste des joueurs
-		Board board;						// Plateau de jeu
-		Renderer renderer;					// Affichage
+		std::vector<Player> players;	// Liste des joueurs
+		Board board;					// Plateau de jeu
+		Renderer renderer;				// Affichage
 
 	public:
 		GameManager(const std::string& filePath);
@@ -34,7 +33,10 @@ namespace kpt
 		// Check si la partie est finie
 		bool const isOver();
 
+		// Boucle de jeu
 		void gameLoop();
+
+		void display() const { renderer.render(); }
 	};
 }
 
