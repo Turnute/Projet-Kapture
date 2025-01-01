@@ -33,9 +33,9 @@ namespace kpt
 
     std::ostream& operator<<(std::ostream& out, const cell& cell)
     {
-        if (cell.t_token != nullptr)
+        if (cell.t_token)
             out << *(cell.t_token);
-        else if (cell.f_flag != nullptr)
+        else if (cell.f_flag)
             out << *(cell.f_flag);
         else
         {

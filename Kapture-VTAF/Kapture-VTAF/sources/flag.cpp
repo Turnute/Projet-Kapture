@@ -8,7 +8,7 @@ namespace kpt
 {
 	// On admet que les joueurs sont nommés P1 et P2
 	flag::flag(const std::string& player_name, const std::pair<int, int>& origin)
-		: name("F" + player_name[1]), origin(origin), isDropped(false), cmpt(2) {}
+		: name(player_name), origin(origin), position(origin), isDropped(false), cmpt(2) {}
 
 	void flag::drop()
 	{
