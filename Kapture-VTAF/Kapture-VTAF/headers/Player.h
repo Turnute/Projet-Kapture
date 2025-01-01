@@ -49,6 +49,10 @@ namespace kpt
 
 			return *this;
 		}
+		bool operator==(const Player& other) const
+		{
+			return this->name == other.name;
+		}
 
 		~Player()
 		{

@@ -22,6 +22,7 @@ namespace kpt
 	public:
 		cell() = delete;								// Constructeur par défaut interdit
 		cell& operator=(const cell& other) = delete;	// Affectation interdite
+		token* getToken() const { return t_token; }
 
 		cell(const std::pair<int, int>& coords, const enum_cell& type, token* t_token, flag* f_flag);
 		cell(const cell& other);

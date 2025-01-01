@@ -79,6 +79,18 @@ namespace kpt
 		//	récupére un drapeau s'il est là
 		//	met à jour les cases visités du joueur (fog)
 	}
+	std::pair<int, int> askCoordinates(const std::string& message)
+	{
+		std::pair<int, int> coords;
+		std::cout << message;
+		std::string input;
+		std::cin >> input;
+		std::stringstream ss(input);
+		getline(ss, input, ',') >> coords.first;
+		getline(ss, input, ',') >> coords.second;
+
+		return coords;
+	}
 
 	void GameManager::playerTurn(const Player& player)
 	{
@@ -91,6 +103,39 @@ namespace kpt
 		//		- demande les coordonnées de l'unité à bouger
 		//		- demande les coordonnées de destination (doit être case adjaçante)
 		//		- appel de moveToken sur l'unité en question
+
+		while (true)
+		{
+			renderer.render();
+			std::string input;
+			std::cout << "Que voulez-vous faire ? (move/endTurn) : ";
+			std::cin >> input;
+
+			if (input == "endTurn") break;
+			else if (input == "move")
+			{
+				std::pair<int, int> token;
+				std::pair<int, int> destination;
+				while (true)
+				{
+					token = askCoordinates("Coordonnées de l'unité à bouger : ");
+					const kpt::token* token1 = board.seek(token)->getToken();
+					if (token1 != nullptr && token1->isOwnedBy(player))
+						break;
+					std::cout << "Aucune unité à cet emplacement" << std::endl;
+				}
+				while (true)
+				{
+					destination = askCoordinates("Coordonnées de destination : ");
+					if (abs(destination.first - token.first) <= 1 && abs(destination.second - token.second) <= 1)
+						break;
+					std::cout << "Destination invalide, veuillez choisir une case adjacente" << std::endl;
+				}
+
+				moveToken(token, destination);
+				checkSurroundings(token);
+			}
+		}
 	}
 
 	bool const GameManager::isOver()

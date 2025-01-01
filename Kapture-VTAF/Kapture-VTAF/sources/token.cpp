@@ -6,6 +6,11 @@
 
 namespace kpt
 {
+    bool token::isOwnedBy(const Player& player) const
+    {
+        return &player == &owner; //j'arrive pas à faire sans & donc pour l'instant on compare les adresses
+    }
+
     void token::assignFlag(const flag& f_flag)
     {
         this->f_flag = &f_flag;

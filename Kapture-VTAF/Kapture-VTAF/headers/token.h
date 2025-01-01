@@ -47,6 +47,7 @@ namespace kpt
 
 		// Affichage
 		friend std::ostream& operator<<(std::ostream& out, const token& token);
+		bool isOwnedBy(const Player& player) const;
 
 	protected:
 		void assignFlag(const flag& f_flag);
