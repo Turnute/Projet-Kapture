@@ -6,6 +6,12 @@
 
 namespace kpt
 {
+    void cell::moveTokenTo(cell* cell)
+    {
+        cell->t_token = this->t_token;
+        this->t_token = nullptr;
+    }
+
     cell::cell(
         const std::pair<int, int>& coords, 
         const enum_cell& type, 

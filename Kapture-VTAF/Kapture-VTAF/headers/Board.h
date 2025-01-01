@@ -55,6 +55,20 @@ namespace kpt
 			else
 				return &cells[posx + posy * height];
 		}
+
+		void moveToken(const std::pair<int, int>& pair, const std::pair<int, int>& destination)
+		{
+			cell* origin = seek(pair);
+			cell* dest = seek(destination);
+
+			if (origin->getToken() == nullptr)
+				throw std::invalid_argument("No token at origin");
+
+			if (dest->getToken() != nullptr)
+				throw std::invalid_argument("Destination already occupied");
+
+			origin->moveTokenTo(dest);
+		}
 	};
 
 	class Board : public T_Board<10, 10> {

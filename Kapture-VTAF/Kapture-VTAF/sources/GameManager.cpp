@@ -64,11 +64,13 @@ namespace kpt
 		// Reset le token à sa position initiale
 	}
 
-	void GameManager::moveToken(const Player& owner, const std::pair<int, int>& token, const std::pair<int, int>& destination)
+	void GameManager::moveToken(const std::pair<int, int>& token, const std::pair<int, int>& destination)
 	{
 		//bouge l'unité en gardant trace des cases visités
 		// gère les points de mouvement
 		// Appelle checkSurroundings et render()
+
+		board.moveToken(token, destination);
 
 	}
 
