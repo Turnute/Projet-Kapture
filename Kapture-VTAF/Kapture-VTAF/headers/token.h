@@ -19,7 +19,7 @@ namespace kpt
 		int curr_travel;					// Points actuels
 		const std::pair<int, int> origin;	// Position d'origine
 		std::pair<int, int> position;		// Position actuelle
-		const flag* f_flag;					// Drapeau (peut être nullptr)
+		flag* f_flag;					// Drapeau (peut être nullptr)
 		const Player& owner;				// Joueur propriétaire (référence constante)
 
 	public:
@@ -39,7 +39,7 @@ namespace kpt
 		const std::string& getName() const { return name; }
 		const std::pair<int, int> getPosition() const { return position;  }
 		const Player& getOwner() const { return owner; }
-		const flag* getFlag() const { return f_flag; }
+		flag* getFlag() const { return f_flag; }
 		bool hasFlag() const { return f_flag != nullptr; }
 
 		// Méthodes à redéfinir
@@ -48,6 +48,7 @@ namespace kpt
 
 		// Affichage
 		friend std::ostream& operator<<(std::ostream& out, const token& token);
+		bool isOwnedBy(const Player& player) const;
 
 	protected:
 		void assignFlag(const flag& f_flag);

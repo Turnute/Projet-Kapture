@@ -25,7 +25,7 @@ namespace kpt
 				for (int y = 0; y < height; y++)
 				{
 					this->cells.emplace_back(
-						std::pair<int, int>(x, y),
+						std::pair<int, int>(x, y), 
 						cells[x + y * height], 
 						nullptr, 
 						nullptr
@@ -55,11 +55,25 @@ namespace kpt
 				return &cells[posx + posy * height];
 		}
 
-		void setToken(const std::pair<int, int>& pos, const token* t) {
+		void moveToken(const std::pair<int, int>& pair, const std::pair<int, int>& destination)
+		{
+			cell* origin = seek(pair);
+			cell* dest = seek(destination);
+
+			if (origin->getToken() == nullptr)
+				throw std::invalid_argument("No token at origin");
+
+			if (dest->getToken() != nullptr)
+				throw std::invalid_argument("Destination already occupied");
+
+			origin->moveTokenTo(dest);
+		}
+
+		void setToken(const std::pair<int, int>& pos, token* t) {
 			cell* c = seek(pos);
 			if (c) c->setToken(t);
 		}
-		void setFlag(const std::pair<int, int>& pos, const flag* f) {
+		void setFlag(const std::pair<int, int>& pos, flag* f) {
 			cell* c = seek(pos);
 			if (c) c->setFlag(f);
 		}

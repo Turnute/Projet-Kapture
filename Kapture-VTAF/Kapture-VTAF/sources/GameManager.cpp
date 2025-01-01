@@ -73,20 +73,51 @@ namespace kpt
 		// Reset le token à sa position initiale
 	}
 
-	void GameManager::moveToken(const Player& owner, const std::pair<int, int>& token, const std::pair<int, int>& destination)
+	void GameManager::moveToken(const std::pair<int, int>& token, const std::pair<int, int>& destination)
 	{
 		//bouge l'unité en gardant trace des cases visités
 		// gère les points de mouvement
 		// Appelle checkSurroundings et render()
 
+		board.moveToken(token, destination);
+
 	}
 
-	void GameManager::checkSurroundings(const token& t_token)
+	void GameManager::checkSurroundings(std::pair<int, int> position)
 	{
 		// Regarde toutes les cases adjaçantes et :
 		//	lance des combats s'il le faut
 		//	récupére un drapeau s'il est là
 		//	met à jour les cases visités du joueur (fog)
+
+		for (int x = -1; x <= 1; x++)
+		{
+			for (int y = -1; y <= 1; y++)
+			{
+				if (x == 0 && y == 0) continue;
+				const cell* c = board.seek(position.first + x, position.second + y);
+				token* token = c->getToken();
+				if (c->getFlag() != nullptr)
+				{
+					token->takeFlag(*(c->getFlag()));
+					c->getFlag()->drop();
+				}
+				else if (token != nullptr) battle(*token, *token);
+			}
+		}
+	}
+
+	std::pair<int, int> askCoordinates(const std::string& message)
+	{
+		std::pair<int, int> coords;
+		std::cout << message;
+		std::string input;
+		std::cin >> input;
+		std::stringstream ss(input);
+		getline(ss, input, ',') >> coords.first;
+		getline(ss, input, ',') >> coords.second;
+
+		return coords;
 	}
 
 	void GameManager::playerTurn(const Player& player)
@@ -100,6 +131,39 @@ namespace kpt
 		//		- demande les coordonnées de l'unité à bouger
 		//		- demande les coordonnées de destination (doit être case adjaçante)
 		//		- appel de moveToken sur l'unité en question
+
+		while (true)
+		{
+			renderer.render();
+			std::string input;
+			std::cout << "Que voulez-vous faire ? (move/endTurn) : ";
+			std::cin >> input;
+
+			if (input == "endTurn") break;
+			else if (input == "move")
+			{
+				std::pair<int, int> token;
+				std::pair<int, int> destination;
+				while (true)
+				{
+					token = askCoordinates("Coordonnées de l'unité à bouger : ");
+					const kpt::token* token1 = board.seek(token)->getToken();
+					if (token1 != nullptr && token1->isOwnedBy(player))
+						break;
+					std::cout << "Aucune unité à cet emplacement" << std::endl;
+				}
+				while (true)
+				{
+					destination = askCoordinates("Coordonnées de destination : ");
+					if (abs(destination.first - token.first) <= 1 && abs(destination.second - token.second) <= 1)
+						break;
+					std::cout << "Destination invalide, veuillez choisir une case adjacente" << std::endl;
+				}
+
+				moveToken(token, destination);
+				checkSurroundings(token);
+			}
+		}
 	}
 
 	bool const GameManager::isOver()
