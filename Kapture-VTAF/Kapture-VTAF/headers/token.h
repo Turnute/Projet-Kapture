@@ -37,10 +37,17 @@ namespace kpt
 		// Getters
 		const enum_token getType() const { return type; }
 		const std::string& getName() const { return name; }
+		const std::pair<int, int> getOrigin() const { return origin; }
 		const std::pair<int, int> getPosition() const { return position;  }
 		Player& getOwner() { return const_cast<Player&>(owner); }
 		flag* getFlag() const { return f_flag; }
 		bool hasFlag() const { return f_flag != nullptr; }
+		void dropFlag()
+		{
+			f_flag->setPosition(position);
+			f_flag->drop();
+			f_flag = nullptr;
+		}
 
 		// Méthodes à redéfinir
 		virtual int battle(const token& other) = 0;	// Renvoie le résultat du combat (0 égalité, 1 victoire, 2 défaite)

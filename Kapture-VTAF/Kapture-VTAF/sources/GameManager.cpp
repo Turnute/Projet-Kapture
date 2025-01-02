@@ -130,12 +130,18 @@ namespace kpt
 	}
 	void GameManager::resetToken(token& t_token)
 	{
-		//TODO :
-		// 
-		// Drop le flag sur une case libre s'il en a un
-			// Commence le compte du flag
+		std::pair<int, int> location = t_token.getPosition();
 
-		// Reset le token à sa position initiale
+		if (t_token.hasFlag())
+		{
+			// Transfère la propriété du flag du token à la case, et initie son compteur.
+			board.seek(location)->setFlag(t_token.getFlag());
+			t_token.dropFlag();
+		}
+
+		moveToken(location, t_token.getOrigin());
+		
+		// TODO : renderer()
 	}
 
 	void GameManager::moveToken(const std::pair<int, int>& token, const std::pair<int, int>& destination)
@@ -176,7 +182,7 @@ namespace kpt
 				if (c->getFlag() != nullptr)
 				{
 					token->takeFlag(*(c->getFlag()));
-					c->getFlag()->drop();
+					c->getFlag();
 				}
 				else if (token != nullptr) battle(*token, *token);
 			}

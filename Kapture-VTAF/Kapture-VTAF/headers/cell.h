@@ -30,6 +30,7 @@ namespace kpt
 		~cell();
 
 		void setToken(token* t) { t_token = t; }
+		void loseFlag() { f_flag = nullptr; }
 		void setFlag(flag* f) { f_flag = f; }
 
 		flag* getFlag() const { return f_flag; }

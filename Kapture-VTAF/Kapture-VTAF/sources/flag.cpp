@@ -16,16 +16,27 @@ namespace kpt
 		cmpt = 2;
 	}
 
-	void flag::update()
+	bool flag::update()
 	{
 		if (isDropped && cmpt == 0)
 		{
 			this->position = this->origin;
 			this->isDropped = false;
+			return true;
 		}
 		else if (isDropped)
+		{
 			cmpt--;
+			return false;
+		}
+			
 	}
+
+	void flag::setPosition(const std::pair<int, int>& pos)
+	{
+		position = pos;
+	}
+
 	std::ostream& operator<<(std::ostream& out, const flag& flag)
 	{
 		out << flag.name << " ";
