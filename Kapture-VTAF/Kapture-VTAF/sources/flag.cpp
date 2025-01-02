@@ -24,12 +24,12 @@ namespace kpt
 			this->isDropped = false;
 			return true;
 		}
-		else if (isDropped)
+		if (isDropped)
 		{
 			cmpt--;
 			return false;
 		}
-			
+		return false;
 	}
 
 	void flag::setPosition(const std::pair<int, int>& pos)
