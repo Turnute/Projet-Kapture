@@ -169,7 +169,7 @@ namespace kpt
 					token->takeFlag(*(c->getFlag()));
 					c->getFlag();
 				}
-				else if (token != nullptr) battle(*token, *token);
+				else if (token != nullptr) battle(*currentToken, *token);
 			}
 		}
 	}
