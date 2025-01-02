@@ -166,8 +166,8 @@ namespace kpt
 
 				if (c->getFlag() != nullptr)
 				{
-					token->takeFlag(*(c->getFlag()));
-					c->getFlag();
+					token->takeFlag(*c->getFlag());
+					//c->getFlag()
 				}
 				else if (token != nullptr) battle(*currentToken, *token);
 			}
