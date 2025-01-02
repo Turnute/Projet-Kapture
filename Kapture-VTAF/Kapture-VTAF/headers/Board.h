@@ -77,6 +77,10 @@ namespace kpt
 			cell* c = seek(pos);
 			if (c) c->setFlag(f);
 		}
+
+		int const getWidth() const { return width; }
+		int const getHeight() const { return height; }
+
 	};
 
 	class Board : public T_Board<10, 10> {

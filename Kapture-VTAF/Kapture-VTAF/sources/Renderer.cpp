@@ -32,7 +32,7 @@ namespace kpt
         return *this;
     }
 
-    void Renderer::render() const
+    void Renderer::render(const int& currentPlayer) const
     {
         const std::pair<int, int> dim = board->getDimensions();
         const int width = dim.first;
@@ -51,9 +51,10 @@ namespace kpt
             std::cout << bar << std::endl;
             std::cout << i << " ";
             for (int j = 0; j < width; j++) {
-                const cell* currentCell = board->seek(i, j);
                 std::cout << "|";
-                std::cout << *currentCell;
+                if ((*players)[currentPlayer].hasVisitedCell(i, j))
+                    std::cout << *board->seek(i, j);   // Affichage de la cellule
+                else std::cout << " ? ";
             }
             std::cout << "|" << std::endl;
         }

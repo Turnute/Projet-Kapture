@@ -16,6 +16,7 @@ namespace kpt
 		std::vector<token*> tokens;						// Liste des pions
 		std::vector<std::pair<int, int>> visitedCells;	// Positions visitées (brouillard de guerre)
 		flag f_flag;									// Drapeau
+
 	public:
 		Player(const std::string& name, const std::vector<std::pair<enum_token, std::pair<int, int>>>& tokens,
 		       const std::pair<int, int>& f_flag);
@@ -62,6 +63,9 @@ namespace kpt
 
 		const std::vector<token*>& getTokens() const { return tokens; }
 		flag& getFlag() { return f_flag; }
+
+		void addVisitedCell(const std::pair<int, int>& pos);
+		bool hasVisitedCell(int i, int j) const;
 	};
 }
 

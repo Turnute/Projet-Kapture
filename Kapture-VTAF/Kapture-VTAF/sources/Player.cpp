@@ -31,4 +31,15 @@ namespace kpt
             }
         }
     }
+    void Player::addVisitedCell(const std::pair<int, int>& pos)
+    {
+        if (std::find(visitedCells.begin(), visitedCells.end(), pos) == visitedCells.end()) {
+            visitedCells.push_back(pos);
+        }
+    }
+    bool Player::hasVisitedCell(int i, int j) const
+    {
+        return std::find(visitedCells.begin(), visitedCells.end(),
+            std::make_pair(i, j)) != visitedCells.end();
+    }
 }

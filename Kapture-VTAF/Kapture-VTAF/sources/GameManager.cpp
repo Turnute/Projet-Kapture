@@ -30,6 +30,7 @@ namespace kpt
 		for (Player& player : players) {
 			for (token* token : player.getTokens()) {
 				board.setToken(token->getPosition(), token);
+				checkSurroundings(token->getPosition());
 			}
 			board.setFlag(player.getFlag().getPosition(), &player.getFlag());
 		}
@@ -80,23 +81,37 @@ namespace kpt
 		// Appelle checkSurroundings et render()
 
 		board.moveToken(token, destination);
-
 	}
 
 	void GameManager::checkSurroundings(std::pair<int, int> position)
 	{
-		// Regarde toutes les cases adjaçantes et :
-		//	lance des combats s'il le faut
-		//	récupére un drapeau s'il est là
-		//	met à jour les cases visités du joueur (fog)
+		// Vérifie qu'on est sur la case d'un pion
+		const cell* currentCell = board.seek(position.first, position.second);
+		token* currentToken = currentCell->getToken();
+		if (currentToken == nullptr) return;
 
 		for (int x = -1; x <= 1; x++)
 		{
 			for (int y = -1; y <= 1; y++)
 			{
-				if (x == 0 && y == 0) continue;
-				const cell* c = board.seek(position.first + x, position.second + y);
+				// Calcule la nouvelle position à checker
+				int newX = position.first + x;
+				int newY = position.second + y;
+
+				// Vérifie que les coordonnées sont valides
+				if (newX < 0 || newY < 0 || newX >= board.getWidth() || newY >= board.getHeight())
+					continue;
+
+				// Rajoute la case à la liste de visite du joueur associé
+				std::pair<int, int> newPos(newX, newY);
+				currentToken->getOwner().addVisitedCell(newPos);
+
+				// Gère le contenu de la case
+				const cell* c = board.seek(newX, newY);
 				token* token = c->getToken();
+
+				if (x == 0 && y == 0) continue;
+
 				if (c->getFlag() != nullptr)
 				{
 					token->takeFlag(*(c->getFlag()));
@@ -120,7 +135,7 @@ namespace kpt
 		return coords;
 	}
 
-	void GameManager::playerTurn(const Player& player)
+	void GameManager::playerTurn(const Player& player, const int& currentPlayerindex)
 	{
 		// Garde une trace de toutes les unités ayant bougé ce tour-ci
 		// -> Boucle while
@@ -134,7 +149,7 @@ namespace kpt
 
 		while (true)
 		{
-			renderer.render();
+			renderer.render(currentPlayerindex);
 			std::string input;
 			std::cout << "Que voulez-vous faire ? (move/endTurn) : ";
 			std::cin >> input;
@@ -178,7 +193,7 @@ namespace kpt
 		while (!isOver())
 		{
 			Player currentPlayer = players[currentPlayerindex];
-			playerTurn(currentPlayer);
+			playerTurn(currentPlayer, currentPlayerindex);
 			currentPlayerindex = (currentPlayerindex + 1) % players.size();
 		}
 	}

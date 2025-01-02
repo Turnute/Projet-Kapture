@@ -16,7 +16,7 @@ namespace kpt
 		Renderer();
 		Renderer(const std::vector<Player>& players, const Board& board);
 		Renderer& operator=(const Renderer& other);
-		void render() const;	// Affichage de l'état actuel de la partie
+		void render(const int& currentPlayer) const;	// Affichage de l'état actuel de la partie
 	};
 }
 

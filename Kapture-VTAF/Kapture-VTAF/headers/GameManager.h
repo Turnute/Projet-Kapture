@@ -28,7 +28,7 @@ namespace kpt
 		// Déroulement d'un tour
 		void moveToken(const std::pair<int, int>& token, const std::pair<int, int>& destination);
 		void checkSurroundings(std::pair<int, int> position);
-		void playerTurn(const Player& player);
+		void playerTurn(const Player& player, const int& playerIndex);
 
 		// Check si la partie est finie
 		bool const isOver();
@@ -36,7 +36,7 @@ namespace kpt
 		// Boucle de jeu
 		void gameLoop();
 
-		void display() const { renderer.render(); }
+		void display(const int& currentPlayer) const { renderer.render(currentPlayer); }
 	};
 }
 
