@@ -97,6 +97,13 @@ namespace kpt
 			return std::make_pair(-1, -1);
 		}
 
+		std::vector<flag*> seekFlags() {
+			std::vector<flag*> flags;
+			for (cell& c : cells) {
+				if (c.getFlag() != nullptr) flags.push_back(c.getFlag());
+			}
+			return flags;
+		}
 	};
 
 	class Board : public T_Board<10, 10> {

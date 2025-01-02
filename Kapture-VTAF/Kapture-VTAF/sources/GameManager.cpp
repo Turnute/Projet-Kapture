@@ -208,7 +208,7 @@ namespace kpt
 			std::cin >> input;
 
 			if (input == "endTurn") break;
-			else if (input == "move")
+			if (input == "move")
 			{
 				std::pair<int, int> token;
 				std::pair<int, int> destination;
@@ -230,6 +230,19 @@ namespace kpt
 
 				moveToken(token, destination);
 			}
+
+			for (flag* f : board.seekFlags())
+			{
+				if (f->update())
+				{
+					/*Différentes méthodes pour reset :
+					 * board->resetFlag(f)
+					 * f->reset()
+					 * Surtout pas refaire de moveFlag() ou autre car c'est pas GameManager est déjà assez chargé et je pense déjà que certaines méthodes sont de trop
+					 */
+				}
+			}
+
 		}
 	}
 
