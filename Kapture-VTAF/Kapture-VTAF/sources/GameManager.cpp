@@ -59,8 +59,8 @@ namespace kpt
 				{
 					// Les deux unités reculent d'une case (si possible)
 
-					std::vector<std::pair<int, int>> possiblePos1;
-					std::vector<std::pair<int, int>> possiblePos2;
+					std::vector<std::pair<int, int>> possiblePos1 = Board::getAdjacents(t1.getPosition());
+					std::vector<std::pair<int, int>> possiblePos2 = Board::getAdjacents(t2.getPosition());
 
 					// Déterminer quel token appartient à quel joueur
 					token* player1Token = nullptr;
@@ -74,22 +74,6 @@ namespace kpt
 						player1Token = &t2;
 						player2Token = &t1;
 					}
-
-					// Pour le token du joueur 1 (descend)
-					std::pair<int, int> pos1 = player1Token->getPosition();
-					possiblePos1.push_back(std::make_pair(pos1.first, pos1.second - 1));
-					possiblePos1.push_back(std::make_pair(pos1.first - 1, pos1.second - 1));
-					possiblePos1.push_back(std::make_pair(pos1.first + 1, pos1.second - 1));
-					possiblePos1.push_back(std::make_pair(pos1.first - 1, pos1.second));
-					possiblePos1.push_back(std::make_pair(pos1.first + 1, pos1.second));
-
-					// Pour le token du joueur 2 (monte)
-					std::pair<int, int> pos2 = player2Token->getPosition();
-					possiblePos1.push_back(std::make_pair(pos2.first, pos2.second + 1));
-					possiblePos1.push_back(std::make_pair(pos2.first - 1, pos2.second + 1));
-					possiblePos1.push_back(std::make_pair(pos2.first + 1, pos2.second + 1));
-					possiblePos1.push_back(std::make_pair(pos2.first - 1, pos2.second));
-					possiblePos1.push_back(std::make_pair(pos2.first + 1, pos2.second));
 
 					// Chercher une case libre pour chaque token
 					std::pair<int, int> newPos1 = board.searchEmptyCell(possiblePos1);

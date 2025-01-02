@@ -107,5 +107,19 @@ namespace kpt
 				: T_Board(cells)
 			{
 			}
+
+		static std::vector<std::pair<int, int>> const getAdjacents(const std::pair<int, int>& pos)
+        {
+            std::vector<std::pair<int, int>> adjacents;
+			for (int x = -1; x <= 1; x++)
+			{
+				for (int y = -1; y <= 1; y++)
+                {
+                    if (x == 0 && y == 0) continue;
+                    adjacents.emplace_back(pos.first + x, pos.second + y);
+                }
+			}
+            return adjacents;
+        }
 	};
 }
