@@ -4,11 +4,13 @@
 #include "../headers/token.h"
 #include <ostream>
 
+#include "../headers/Player.h"
+
 namespace kpt
 {
     bool token::isOwnedBy(const Player& player) const
     {
-        return &player == &owner; //j'arrive pas à faire sans & donc pour l'instant on compare les adresses
+        return player == this->owner;
     }
 
     void token::assignFlag(flag& f_flag)
