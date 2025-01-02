@@ -41,27 +41,91 @@ namespace kpt
 
 	void GameManager::battle(token& t1, token& t2)
 	{
-		switch (t1.battle(t2))
+		if (t1.getOwner() == t2.getOwner())
+			return;
+		else
 		{
-		case 0:
-			switch (t1.getType())
+			switch (t1.battle(t2))
 			{
-			case SCOUT:
+			// Égalité : comportement dépendant du type
+			case 0:
+				switch (t1.getType())
+				{
+				case SCOUT:
+					// On en fait rien
+					break;
+				case ELITE:
+				{
+					// Les deux unités reculent d'une case (si possible)
+
+					std::vector<std::pair<int, int>> possiblePos1;
+					std::vector<std::pair<int, int>> possiblePos2;
+
+					// Déterminer quel token appartient à quel joueur
+					token* player1Token = nullptr;
+					token* player2Token = nullptr;
+
+					if (t1.isOwnedBy(players[0])) {
+						player1Token = &t1;
+						player2Token = &t2;
+					}
+					else {
+						player1Token = &t2;
+						player2Token = &t1;
+					}
+
+					// Pour le token du joueur 1 (descend)
+					std::pair<int, int> pos1 = player1Token->getPosition();
+					possiblePos1.push_back(std::make_pair(pos1.first, pos1.second - 1));
+					possiblePos1.push_back(std::make_pair(pos1.first - 1, pos1.second - 1));
+					possiblePos1.push_back(std::make_pair(pos1.first + 1, pos1.second - 1));
+					possiblePos1.push_back(std::make_pair(pos1.first - 1, pos1.second));
+					possiblePos1.push_back(std::make_pair(pos1.first + 1, pos1.second));
+
+					// Pour le token du joueur 2 (monte)
+					std::pair<int, int> pos2 = player2Token->getPosition();
+					possiblePos1.push_back(std::make_pair(pos2.first, pos2.second + 1));
+					possiblePos1.push_back(std::make_pair(pos2.first - 1, pos2.second + 1));
+					possiblePos1.push_back(std::make_pair(pos2.first + 1, pos2.second + 1));
+					possiblePos1.push_back(std::make_pair(pos2.first - 1, pos2.second));
+					possiblePos1.push_back(std::make_pair(pos2.first + 1, pos2.second));
+
+					// Chercher une case libre pour chaque token
+					std::pair<int, int> newPos1 = board.searchEmptyCell(possiblePos1);
+					std::pair<int, int> newPos2 = board.searchEmptyCell(possiblePos2);
+
+					// Déplacer les tokens
+					if (newPos1.first != -1)
+					{
+						moveToken(player1Token->getPosition(), newPos1);
+					}
+
+					if (newPos2.second != -1)
+						moveToken(player2Token->getPosition(), newPos2);
+					break;
+				}
+				case FODDER:
+				{
+					// Chance aléatoire que l'un ou l'autre recule
+
+					int randomNb = rand() % 2;
+					if (randomNb == 0)
+						resetToken(t1);
+					else resetToken(t2);
+					break;
+				}
+				}
 				break;
-			case ELITE:
-				// TODO : Les deux reculent d'une case
-				break;
-			case FODDER:
-				// TODO : 50/50 qui gagne ou perd
+
+			// Le joueur 1 gagne
+			case 1:
+				resetToken(t2);
+			// Le joueur 2 gagne
+			case 2:
+				resetToken(t1);
+			default:
 				break;
 			}
-			break;
-		case 1:
-			resetToken(t2);
-		case 2:
-			resetToken(t1);
-		default:
-			break;
 		}
 	}
 	void GameManager::resetToken(token& t_token)
@@ -76,11 +140,8 @@ namespace kpt
 
 	void GameManager::moveToken(const std::pair<int, int>& token, const std::pair<int, int>& destination)
 	{
-		//bouge l'unité en gardant trace des cases visités
-		// gère les points de mouvement
-		// Appelle checkSurroundings et render()
-
 		board.moveToken(token, destination);
+		checkSurroundings(token);
 	}
 
 	void GameManager::checkSurroundings(std::pair<int, int> position)
@@ -97,13 +158,13 @@ namespace kpt
 				// Calcule la nouvelle position à checker
 				int newX = position.first + x;
 				int newY = position.second + y;
+				std::pair<int, int> newPos(newX, newY);
 
 				// Vérifie que les coordonnées sont valides
-				if (newX < 0 || newY < 0 || newX >= board.getWidth() || newY >= board.getHeight())
+				if ((board.outOfBonds(newPos)))
 					continue;
 
 				// Rajoute la case à la liste de visite du joueur associé
-				std::pair<int, int> newPos(newX, newY);
 				currentToken->getOwner().addVisitedCell(newPos);
 
 				// Gère le contenu de la case
@@ -176,7 +237,6 @@ namespace kpt
 				}
 
 				moveToken(token, destination);
-				checkSurroundings(token);
 			}
 		}
 	}

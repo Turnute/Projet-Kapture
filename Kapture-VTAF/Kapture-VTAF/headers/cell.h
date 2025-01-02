@@ -16,7 +16,7 @@ namespace kpt
 	{
 		const std::pair<int, int> coords;	// Coordonnées de la case
 		const enum_cell type;				// Type de la case
-		token* t_token;				// Pion sur la case (peut être nullptr)
+		token* t_token;					// Pion sur la case (peut être nullptr)
 		flag* f_flag;					// Drapeau sur la case (peut être nullptr)
 
 	public:
@@ -33,6 +33,9 @@ namespace kpt
 		void setFlag(flag* f) { f_flag = f; }
 
 		flag* getFlag() const { return f_flag; }
+		bool const isEmpty() const {
+			return (t_token == nullptr && f_flag == nullptr);
+		}
 
 		friend std::ostream& operator<<(std::ostream& out, const cell& cell);
 	};

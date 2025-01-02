@@ -81,6 +81,22 @@ namespace kpt
 		int const getWidth() const { return width; }
 		int const getHeight() const { return height; }
 
+		bool const outOfBonds(std::pair<int, int> pos) const
+		{
+			return (pos.first < 0 || pos.second < 0 || pos.first >= getWidth() || pos.second >= getHeight());
+		}
+
+		// Search for an empty cell within a list of positions
+		std::pair<int, int> const searchEmptyCell(const std::vector<std::pair<int, int>> locations) const {
+			for (const std::pair<int, int>& pos : locations) {
+				if (outOfBonds(pos))
+					continue;
+				else if (seek(pos.first, pos.second)->isEmpty())
+					return pos;
+			}
+			return std::make_pair(-1, -1);
+		}
+
 	};
 
 	class Board : public T_Board<10, 10> {
