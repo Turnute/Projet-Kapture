@@ -10,9 +10,7 @@ int main()
 		std::string configFile = "../../Kapture.txt";
 		kpt::GameManager game(configFile);
 
-		game.display(0);
-		game.display(1);
-
+		game.display();
 
 		return 0;
 	}

@@ -10,6 +10,7 @@
 namespace kpt
 {
 	GameManager::GameManager(const std::string& filePath)
+		: currentPlayerindex(0)
 	{
 		GameParser parser(filePath);
 
@@ -141,7 +142,7 @@ namespace kpt
 
 		moveToken(location, t_token.getOrigin());
 		
-		// TODO : renderer()
+		display();
 	}
 
 	void GameManager::moveToken(const std::pair<int, int>& token, const std::pair<int, int>& destination)
@@ -202,7 +203,7 @@ namespace kpt
 		return coords;
 	}
 
-	void GameManager::playerTurn(const Player& player, const int& currentPlayerindex)
+	void GameManager::playerTurn(const Player& player)
 	{
 		// Garde une trace de toutes les unités ayant bougé ce tour-ci
 		// -> Boucle while
@@ -216,7 +217,8 @@ namespace kpt
 
 		while (true)
 		{
-			renderer.render(currentPlayerindex);
+			display();
+
 			std::string input;
 			std::cout << "Que voulez-vous faire ? (move/endTurn) : ";
 			std::cin >> input;
@@ -255,11 +257,10 @@ namespace kpt
 
 	void GameManager::gameLoop()
 	{
-		int currentPlayerindex = 0;
 		while (!isOver())
 		{
 			Player currentPlayer = players[currentPlayerindex];
-			playerTurn(currentPlayer, currentPlayerindex);
+			playerTurn(currentPlayer);
 			currentPlayerindex = (currentPlayerindex + 1) % players.size();
 		}
 	}

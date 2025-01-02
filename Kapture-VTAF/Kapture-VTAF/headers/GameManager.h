@@ -17,6 +17,7 @@ namespace kpt
 		std::vector<Player> players;	// Liste des joueurs
 		Board board;					// Plateau de jeu
 		Renderer renderer;				// Affichage
+		int currentPlayerindex;
 
 	public:
 		GameManager(const std::string& filePath);
@@ -28,7 +29,7 @@ namespace kpt
 		// Déroulement d'un tour
 		void moveToken(const std::pair<int, int>& token, const std::pair<int, int>& destination);
 		void checkSurroundings(std::pair<int, int> position);
-		void playerTurn(const Player& player, const int& playerIndex);
+		void playerTurn(const Player& player);
 
 		// Check si la partie est finie
 		bool const isOver();
@@ -36,7 +37,7 @@ namespace kpt
 		// Boucle de jeu
 		void gameLoop();
 
-		void display(const int& currentPlayer) const { renderer.render(currentPlayer); }
+		void display() const { renderer.render(currentPlayerindex); }
 	};
 }
 
