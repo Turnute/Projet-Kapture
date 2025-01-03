@@ -4,10 +4,10 @@
 #include <iostream>
 #include "./headers/GameManager.h"
 
-int main()
+int main(int argc, char* argv[])
 {
 	try {
-		std::string configFile = "../../Kapture.txt";
+		std::string configFile = argc > 1 ? argv[1] : "Kapture.txt";
 		kpt::GameManager game(configFile);
 
 		game.gameLoop();
