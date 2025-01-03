@@ -12,6 +12,8 @@ int main()
 
 		game.display();
 
+		game.gameLoop();
+
 		return 0;
 	}
 	catch (const std::exception& e) {

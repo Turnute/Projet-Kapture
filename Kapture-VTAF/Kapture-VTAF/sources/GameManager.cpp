@@ -42,13 +42,30 @@ namespace kpt
 
 	void GameManager::battle(token& t1, token& t2)
 	{
+		std::cout << "Battle initiated between "
+			<< t1 << " & " << t2
+			<< std::endl;
 		if (t1.getOwner() == t2.getOwner())
 			return;
 		else
 		{
+			// Déterminer quel token appartient à quel joueur
+			token* player1Token = nullptr;
+			token* player2Token = nullptr;
+
+			if (t1.isOwnedBy(players[0])) {
+				player1Token = &t1;
+				player2Token = &t2;
+			}
+			else {
+				player1Token = &t2;
+				player2Token = &t1;
+			}
+
 			switch (t1.battle(t2))
 			{
 			// Égalité : comportement dépendant du type
+				std::cout << "Tie!" << std::endl;
 			case 0:
 				switch (t1.getType())
 				{
@@ -61,19 +78,6 @@ namespace kpt
 
 					std::vector<std::pair<int, int>> possiblePos1 = Board::getAdjacents(t1.getPosition());
 					std::vector<std::pair<int, int>> possiblePos2 = Board::getAdjacents(t2.getPosition());
-
-					// Déterminer quel token appartient à quel joueur
-					token* player1Token = nullptr;
-					token* player2Token = nullptr;
-
-					if (t1.isOwnedBy(players[0])) {
-						player1Token = &t1;
-						player2Token = &t2;
-					}
-					else {
-						player1Token = &t2;
-						player2Token = &t1;
-					}
 
 					// Chercher une case libre pour chaque token
 					std::pair<int, int> newPos1 = board.searchEmptyCell(possiblePos1);
@@ -104,10 +108,12 @@ namespace kpt
 
 			// Le joueur 1 gagne
 			case 1:
-				resetToken(t2);
+				std::cout << "Player 1 Wins!" << std::endl;
+				resetToken(*player2Token);
 			// Le joueur 2 gagne
 			case 2:
-				resetToken(t1);
+				std::cout << "Player 2 Wins!" << std::endl;
+				resetToken(*player1Token);
 			default:
 				break;
 			}
@@ -131,8 +137,13 @@ namespace kpt
 
 	void GameManager::moveToken(const std::pair<int, int>& token, const std::pair<int, int>& destination)
 	{
-		board.moveToken(token, destination);
-		checkSurroundings(destination);
+		if (token == destination)
+			std::cout << "Vous ne pouvez pas bouger ici !" << std::endl;
+		else
+		{
+			board.moveToken(token, destination);
+			checkSurroundings(destination);
+		}
 	}
 
 	void GameManager::checkSurroundings(std::pair<int, int> position)
@@ -156,7 +167,7 @@ namespace kpt
 					continue;
 
 				// Rajoute la case à la liste de visite du joueur associé
-				// Debug std::cout << "Updating cell " << newX << "." << newY << std::endl;
+				std::cout << "Updating cell " << newX << "." << newY << std::endl;
 				currentToken->getOwner().addVisitedCell(newPos);
 
 				// Gère le contenu de la case
@@ -182,9 +193,17 @@ namespace kpt
 		std::string input;
 		std::cin >> input;
 		std::stringstream ss(input);
-		getline(ss, input, ',') >> coords.first;
-		getline(ss, input, ',') >> coords.second;
 
+		std::string first, second;
+		getline(ss, first, ',');
+		getline(ss, second);
+
+		coords.first = std::stoi(first);
+		coords.second = std::stoi(second);
+
+		std::cout << "Je lis les coords : "
+			<< coords.first << ","
+			<< coords.second << std::endl;
 		return coords;
 	}
 
