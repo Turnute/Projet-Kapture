@@ -14,13 +14,13 @@ namespace kpt
 
 	class cell
 	{
-		const std::pair<int, int> coords;	// Coordonnées de la case
+		const std::pair<int, int> coords;	// CoordonnÃ©es de la case
 		const enum_cell type;				// Type de la case
-		token* t_token;					// Pion sur la case (peut être nullptr)
-		flag* f_flag;					// Drapeau sur la case (peut être nullptr)
+		token* t_token;					// Pion sur la case (peut Ãªtre nullptr)
+		flag* f_flag;					// Drapeau sur la case (peut Ãªtre nullptr)
 
 	public:
-		cell() = delete;								// Constructeur par défaut interdit
+		cell() = delete;								// Constructeur par dÃ©faut interdit
 		cell& operator=(const cell& other) = delete;	// Affectation interdite
 		token* getToken() const { return t_token; }
 		void moveTokenTo(cell* cell);

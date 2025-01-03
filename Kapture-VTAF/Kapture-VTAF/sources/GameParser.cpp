@@ -32,7 +32,7 @@ namespace kpt
 		while (
 			std::getline(file, line)	// On lit bien une ligne valide
 			&& !line.empty()			// La ligne n'est pas vide
-			&& line[0] != 'P'			// On est pas sur la définition d'un joueur
+			&& line[0] != 'P'			// On est pas sur la dÃ©finition d'un joueur
 			)
 		{
 			std::stringstream ss(line);
@@ -52,7 +52,7 @@ namespace kpt
 			if (line.empty())
 				continue;
 
-			// Ligne annonçant un nouveau joueur
+			// Ligne annonÃ§ant un nouveau joueur
 			if (line[0] == 'P')
 			{
 				currentPlayer = line[1] - '0';
@@ -105,7 +105,7 @@ namespace kpt
 	}
 	std::pair<int, int> const GameParser::parsePosition(const std::string& str)
 	{
-		// On suppose que la position est donnée sous la forme :
+		// On suppose que la position est donnÃ©e sous la forme :
 		// PosX:PosY
 
 		std::stringstream ss(str);
@@ -134,7 +134,7 @@ namespace kpt
 			return;
 		}
 
-		// Ligne listant les unités d'un type
+		// Ligne listant les unitÃ©s d'un type
 		enum_token currentType = parseToken(strType);
 		std::stringstream ss(positions);
 		std::string pos;

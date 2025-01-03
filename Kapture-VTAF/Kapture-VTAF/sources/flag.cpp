@@ -6,7 +6,7 @@
 
 namespace kpt
 {
-	// On admet que les joueurs sont nommés P1 et P2
+	// On admet que les joueurs sont nommÃ©s P1 et P2
 	flag::flag(const std::string& player_name, const std::pair<int, int>& origin)
 		: name(player_name), origin(origin), position(origin), isDropped(false), cmpt(2) {}
 

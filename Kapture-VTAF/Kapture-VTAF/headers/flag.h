@@ -10,15 +10,15 @@ namespace kpt
 	class flag
 	{
 		const std::string name;				// Nom pour l'affichage
-		const std::pair<int, int> origin;	// CoordonnÈes d'origine
+		const std::pair<int, int> origin;	// Coordonn√©es d'origine
 		std::pair<int, int> position;		// Position
-		bool isDropped;						// Check si on a ÈtÈ l‚chÈ ou non
+		bool isDropped;						// Check si on a √©t√© l√¢ch√© ou non
 		int cmpt;							// Compteur
 
 	public:
 		flag(const std::string& player_name, const std::pair<int, int>& origin);
-		void drop();	// Met le flag en Ètat "l‚chÈ"
-		bool update();	// MÈthode de mise ‡ jour
+		void drop();	// Met le flag en √©tat "l√¢ch√©"
+		bool update();	// M√©thode de mise √† jour
 		void reset();
 
 		const std::pair<int, int> getPosition() const { return position; }

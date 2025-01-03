@@ -14,7 +14,7 @@ namespace kpt
 	{
 		const std::string name;							// Nom du joueur (J1 ou J2)
 		std::vector<token*> tokens;						// Liste des pions
-		std::vector<std::pair<int, int>> visitedCells;	// Positions visitées (brouillard de guerre)
+		std::vector<std::pair<int, int>> visitedCells;	// Positions visitÃ©es (brouillard de guerre)
 		flag f_flag;									// Drapeau
 
 	public:

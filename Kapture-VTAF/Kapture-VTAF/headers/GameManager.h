@@ -26,7 +26,7 @@ namespace kpt
 		void battle(token& t1, token& t2);
 		void resetToken(token& t_token);
 
-		// Déroulement d'un tour
+		// DÃ©roulement d'un tour
 		void moveToken(const std::pair<int, int>& token, const std::pair<int, int>& destination);
 		void checkSurroundings(std::pair<int, int> position);
 		void playerTurn(const Player& player);

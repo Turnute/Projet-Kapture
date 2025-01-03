@@ -15,18 +15,18 @@ namespace kpt
 	class token {
 		const enum_token type;				// Type du token
 		const std::string name;				// Nom pour l'affichage
-		const int max_travel;				// Points max de déplacement
+		const int max_travel;				// Points max de dÃ©placement
 		int curr_travel;					// Points actuels
 		const std::pair<int, int> origin;	// Position d'origine
 		std::pair<int, int> position;		// Position actuelle
-		flag* f_flag;					// Drapeau (peut être nullptr)
-		const Player& owner;				// Joueur propriétaire (référence constante)
+		flag* f_flag;					// Drapeau (peut Ãªtre nullptr)
+		const Player& owner;				// Joueur propriÃ©taire (rÃ©fÃ©rence constante)
 
 	public:
 		token(const enum_token& type, const std::string& name, int max_travel, const std::pair<int, int>& origin, const Player& owner)
 			: type(type), name(name), max_travel(max_travel), curr_travel(0), origin(origin), position(origin), f_flag(nullptr), owner(owner) {}
 
-		token() = delete;							// Constructeur par défaut interdit
+		token() = delete;							// Constructeur par dÃ©faut interdit
 		token(const token&) = delete;				// Copie interdite
 		token& operator=(const token&) = delete;	// Affectation interdite
 
@@ -49,8 +49,8 @@ namespace kpt
 			f_flag = nullptr;
 		}
 
-		// Méthodes à redéfinir
-		virtual int battle(const token& other) = 0;	// Renvoie le résultat du combat (0 égalité, 1 victoire, 2 défaite)
+		// MÃ©thodes Ã  redÃ©finir
+		virtual int battle(const token& other) = 0;	// Renvoie le rÃ©sultat du combat (0 Ã©galitÃ©, 1 victoire, 2 dÃ©faite)
 		virtual void takeFlag(flag& f_flag) = 0;	// Prend le drapeau
 
 		// Affichage
