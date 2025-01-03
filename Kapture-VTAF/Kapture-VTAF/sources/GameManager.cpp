@@ -75,7 +75,6 @@ namespace kpt
 				{
 					std::cout << "Égalité !" << std::endl;
 					// Les deux unités reculent d'une case (si possible)
-
 					std::vector<std::pair<int, int>> possiblePos1 = Board::getAdjacents(t1.getPosition());
 					std::vector<std::pair<int, int>> possiblePos2 = Board::getAdjacents(t2.getPosition());
 
@@ -96,7 +95,6 @@ namespace kpt
 				case FODDER:
 				{
 					// Chance aléatoire que l'un ou l'autre perde
-
 					int randomNb = rand() % 2;
 					if (randomNb == 0)
 					{
@@ -282,7 +280,7 @@ namespace kpt
 	{
 		while (!isOver())
 		{
-			Player currentPlayer = players[currentPlayerindex];
+			Player& currentPlayer = players[currentPlayerindex];
 			playerTurn(currentPlayer);
 			currentPlayerindex = (currentPlayerindex + 1) % players.size();
 		}
