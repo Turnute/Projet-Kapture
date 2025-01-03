@@ -186,24 +186,39 @@ namespace kpt
 		}
 	}
 
-	std::pair<int, int> askCoordinates(const std::string& message)
-	{
+	std::pair<int, int> GameManager::askCoordinates(const std::string& message) {
 		std::pair<int, int> coords;
-		std::cout << message;
-		std::string input;
-		std::cin >> input;
-		std::stringstream ss(input);
 
-		std::string first, second;
-		getline(ss, first, ',');
-		getline(ss, second);
+		while (true) {
+			std::cout << message;
+			std::string input;
+			std::cin >> input; // Lire une entrée unique
+			std::stringstream ss(input);
 
-		coords.first = std::stoi(first);
-		coords.second = std::stoi(second);
+			std::string first, second;
 
-		std::cout << "Je lis les coords : "
-			<< coords.first << ","
-			<< coords.second << std::endl;
+			// Extraire les deux parties séparées par une virgule
+			if (std::getline(ss, first, ',') && std::getline(ss, second)) {
+				// Convertir les parties en entiers
+				coords.first = std::stoi(first);
+				coords.second = std::stoi(second);
+
+				if (!board.outOfBonds(coords))
+				{
+					// Si tout est valide, on quitte la boucle
+					std::cout << "Je lis les coords : "
+						<< coords.first << ","
+						<< coords.second << std::endl;
+					break;
+				}
+				else
+					std::cout << "Valeurs incorrectes : veuillez entrer une position sur le plateau." << std::endl;
+			}
+			else {
+				std::cout << "Format incorrect : veuillez entrer un position valide (ex : 3,4)." << std::endl;
+			}
+		}
+
 		return coords;
 	}
 

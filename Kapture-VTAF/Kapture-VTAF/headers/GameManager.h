@@ -35,6 +35,7 @@ namespace kpt
 		bool const isOver();
 
 		// Boucle de jeu
+		std::pair<int, int> askCoordinates(const std::string& message);
 		void gameLoop();
 
 		void display() const { renderer.render(currentPlayerindex); }
