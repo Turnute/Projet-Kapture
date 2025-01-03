@@ -8,6 +8,9 @@ namespace kpt
 {
     void cell::moveTokenTo(cell* cell)
     {
+        this->t_token->setPosition(
+            std::make_pair(cell->coords.second, cell->coords.first)
+        );
         cell->t_token = this->t_token;
         this->t_token = nullptr;
     }

@@ -42,13 +42,13 @@ namespace kpt
 
 	void GameManager::battle(token& t1, token& t2)
 	{
-		std::cout << "Battle initiated between "
-			<< t1 << " & " << t2
-			<< std::endl;
 		if (t1.getOwner() == t2.getOwner())
 			return;
 		else
 		{
+			std::cout << "Combat initié entre "
+				<< t1.getName() << " & " << t2.getName()
+				<< "... ";
 			// Déterminer quel token appartient à quel joueur
 			token* player1Token = nullptr;
 			token* player2Token = nullptr;
@@ -65,7 +65,6 @@ namespace kpt
 			switch (t1.battle(t2))
 			{
 			// Égalité : comportement dépendant du type
-				std::cout << "Tie!" << std::endl;
 			case 0:
 				switch (t1.getType())
 				{
@@ -74,6 +73,7 @@ namespace kpt
 					break;
 				case ELITE:
 				{
+					std::cout << "Égalité !" << std::endl;
 					// Les deux unités reculent d'une case (si possible)
 
 					std::vector<std::pair<int, int>> possiblePos1 = Board::getAdjacents(t1.getPosition());
@@ -95,12 +95,19 @@ namespace kpt
 				}
 				case FODDER:
 				{
-					// Chance aléatoire que l'un ou l'autre recule
+					// Chance aléatoire que l'un ou l'autre perde
 
 					int randomNb = rand() % 2;
 					if (randomNb == 0)
-						resetToken(t1);
-					else resetToken(t2);
+					{
+						std::cout << player1Token->getName() << " gagne !" << std::endl;
+						resetToken(*player2Token);
+					}
+					else
+					{
+						std::cout << player2Token->getName() << " gagne !" << std::endl;
+						resetToken(*player1Token);
+					}
 					break;
 				}
 				}
@@ -108,17 +115,18 @@ namespace kpt
 
 			// Le joueur 1 gagne
 			case 1:
-				std::cout << "Player 1 Wins!" << std::endl;
+				std::cout << player1Token->getName() << " gagne !" << std::endl;
 				resetToken(*player2Token);
 			// Le joueur 2 gagne
 			case 2:
-				std::cout << "Player 2 Wins!" << std::endl;
+				std::cout << player2Token->getName() << " gagne !" << std::endl;
 				resetToken(*player1Token);
 			default:
 				break;
 			}
 		}
 	}
+
 	void GameManager::resetToken(token& t_token)
 	{
 		std::pair<int, int> location = t_token.getPosition();
@@ -131,14 +139,12 @@ namespace kpt
 		}
 
 		moveToken(location, t_token.getOrigin());
-		
-		display();
 	}
 
 	void GameManager::moveToken(const std::pair<int, int>& token, const std::pair<int, int>& destination)
 	{
 		if (token == destination)
-			std::cout << "Vous ne pouvez pas bouger ici !" << std::endl;
+			std::cout << "Vous êtes déjà sur cette case !" << std::endl;
 		else
 		{
 			board.moveToken(token, destination);
@@ -167,7 +173,7 @@ namespace kpt
 					continue;
 
 				// Rajoute la case à la liste de visite du joueur associé
-				std::cout << "Updating cell " << newX << "." << newY << std::endl;
+				// Debug : std::cout << "Updating cell " << newX << "." << newY << std::endl;
 				currentToken->getOwner().addVisitedCell(newPos);
 
 				// Gère le contenu de la case
@@ -206,9 +212,6 @@ namespace kpt
 				if (!board.outOfBonds(coords))
 				{
 					// Si tout est valide, on quitte la boucle
-					std::cout << "Je lis les coords : "
-						<< coords.first << ","
-						<< coords.second << std::endl;
 					break;
 				}
 				else
@@ -224,16 +227,6 @@ namespace kpt
 
 	void GameManager::playerTurn(const Player& player)
 	{
-		// Garde une trace de toutes les unités ayant bougé ce tour-ci
-		// -> Boucle while
-		// render()
-		// Demande au joueur son input ("move" ou "endTurn")
-		//	-> endTurn : sors de la boucle
-		//	-> move : 
-		//		- demande les coordonnées de l'unité à bouger
-		//		- demande les coordonnées de destination (doit être case adjaçante)
-		//		- appel de moveToken sur l'unité en question
-
 		while (true)
 		{
 			display();
@@ -243,13 +236,13 @@ namespace kpt
 			std::cin >> input;
 
 			if (input == "endTurn") break;
-			if (input == "move")
+			else if (input == "move")
 			{
 				std::pair<int, int> token;
 				std::pair<int, int> destination;
 				while (true)
 				{
-					token = askCoordinates("Coordonnées de l'unité à bouger : ");
+					token = askCoordinates("Coordonnées de l'unité à bouger (Ligne,Colonne): ");
 					const kpt::token* token1 = board.seek(token)->getToken();
 					if (token1 != nullptr && token1->isOwnedBy(player))
 						break;
@@ -257,7 +250,7 @@ namespace kpt
 				}
 				while (true)
 				{
-					destination = askCoordinates("Coordonnées de destination : ");
+					destination = askCoordinates("Coordonnées de destination (Ligne,Colonne) : ");
 					if (abs(destination.first - token.first) <= 1 && abs(destination.second - token.second) <= 1)
 						break;
 					std::cout << "Destination invalide, veuillez choisir une case adjacente" << std::endl;
@@ -265,16 +258,17 @@ namespace kpt
 
 				moveToken(token, destination);
 			}
+			else std::cout << "Input non valide !" << std::endl;
+		}
 
-			for (flag* f : board.seekFlags())
+		// Update les flags à la fin du tour
+		for (flag* f : board.seekFlags())
+		{
+			if (f->update())
 			{
-				if (f->update())
-				{
-					board.resetFlag(f);
-					f->reset();
-				}
+				board.resetFlag(f);
+				f->reset();
 			}
-
 		}
 	}
 

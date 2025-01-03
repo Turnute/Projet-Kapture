@@ -39,6 +39,7 @@ namespace kpt
 		const std::string& getName() const { return name; }
 		const std::pair<int, int> getOrigin() const { return origin; }
 		const std::pair<int, int> getPosition() const { return position;  }
+		void setPosition(const std::pair<int, int> pos) { position = pos; }
 		Player& getOwner() { return const_cast<Player&>(owner); }
 		flag* getFlag() const { return f_flag; }
 		bool hasFlag() const { return f_flag != nullptr; }
