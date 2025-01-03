@@ -32,6 +32,12 @@ namespace kpt
 		return false;
 	}
 
+	void flag::reset()
+	{
+		position = origin;
+		isDropped = false;
+	}
+
 	void flag::setPosition(const std::pair<int, int>& pos)
 	{
 		position = pos;

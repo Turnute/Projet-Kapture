@@ -104,6 +104,13 @@ namespace kpt
 			}
 			return flags;
 		}
+
+		void resetFlag(const flag* f) {
+			cell* currentCell = seek(f->getPosition());
+			cell* originCell = seek(f->getOrigin());
+			currentCell->loseFlag();
+			originCell->setFlag(f);
+		}
 	};
 
 	class Board : public T_Board<10, 10> {

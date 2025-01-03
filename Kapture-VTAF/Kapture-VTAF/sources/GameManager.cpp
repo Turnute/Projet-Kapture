@@ -156,6 +156,7 @@ namespace kpt
 					continue;
 
 				// Rajoute la case à la liste de visite du joueur associé
+				// Debug std::cout << "Updating cell " << newX << "." << newY << std::endl;
 				currentToken->getOwner().addVisitedCell(newPos);
 
 				// Gère le contenu de la case
@@ -235,11 +236,8 @@ namespace kpt
 			{
 				if (f->update())
 				{
-					/*Différentes méthodes pour reset :
-					 * board->resetFlag(f)
-					 * f->reset()
-					 * Surtout pas refaire de moveFlag() ou autre car c'est pas GameManager est déjà assez chargé et je pense déjà que certaines méthodes sont de trop
-					 */
+					board.resetFlag(f);
+					f->reset();
 				}
 			}
 

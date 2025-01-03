@@ -19,8 +19,11 @@ namespace kpt
 		flag(const std::string& player_name, const std::pair<int, int>& origin);
 		void drop();	// Met le flag en état "lâché"
 		bool update();	// Méthode de mise à jour
+		void reset();
 
 		const std::pair<int, int> getPosition() const { return position; }
+		const std::pair<int, int> getOrigin() const { return origin; }
+
 		flag& operator=(const flag& other)
 		{
 			if (this == &other) return *this;
