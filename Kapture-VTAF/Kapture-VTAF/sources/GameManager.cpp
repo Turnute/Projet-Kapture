@@ -132,7 +132,7 @@ namespace kpt
 	void GameManager::moveToken(const std::pair<int, int>& token, const std::pair<int, int>& destination)
 	{
 		board.moveToken(token, destination);
-		checkSurroundings(token);
+		checkSurroundings(destination);
 	}
 
 	void GameManager::checkSurroundings(std::pair<int, int> position)
