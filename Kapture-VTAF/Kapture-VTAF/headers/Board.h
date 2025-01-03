@@ -105,7 +105,7 @@ namespace kpt
 			return flags;
 		}
 
-		void resetFlag(const flag* f) {
+		void resetFlag(flag* f) {
 			cell* currentCell = seek(f->getPosition());
 			cell* originCell = seek(f->getOrigin());
 			currentCell->loseFlag();
