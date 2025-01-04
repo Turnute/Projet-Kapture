@@ -108,14 +108,24 @@ namespace kpt
 			{
 			}
 
-		static std::vector<std::pair<int, int>> const getAdjacents(const std::pair<int, int>& pos)
-        {
-			std::vector<std::pair<int, int>> adj;
-			return adj;
-			// TODO :
-			// pos = X,Y
-			// SI c'est le joueur 1, alors on renvoie la liste : "(X-1,Y);(X-1,Y-1);(X-1,Y+1)"
-			// SI c'est le joueur 2, alors on renvoie la liste : "(X+1,Y);(X+1,Y+1);(X+1,Y-1)"
-        }
+			static std::vector<std::pair<int, int>> const getAdjacents(const std::pair<int, int>& pos, const std::string& player_name)
+			{
+				std::vector<std::pair<int, int>> adj;
+				int x = pos.first;
+				int y = pos.second;
+
+				if (player_name == "P2") {
+					adj.push_back(std::make_pair(x + 1, y));
+					adj.push_back(std::make_pair(x + 1, y + 1));
+					adj.push_back(std::make_pair(x + 1, y - 1));
+				}
+				else {
+					adj.push_back(std::make_pair(x - 1, y));
+					adj.push_back(std::make_pair(x - 1, y + 1));
+					adj.push_back(std::make_pair(x - 1, y - 1));
+				}
+
+				return adj;
+			}
 	};
 }

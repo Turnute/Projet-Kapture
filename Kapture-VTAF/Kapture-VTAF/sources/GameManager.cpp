@@ -60,8 +60,8 @@ namespace kpt
 			{
 				std::cout << "Égalité entre les troupes d'élite !" << std::endl;
 				// Les deux unités reculent d'une case (si possible)
-				std::vector<std::pair<int, int>> possiblePos1 = Board::getAdjacents(t1.getPosition());
-				std::vector<std::pair<int, int>> possiblePos2 = Board::getAdjacents(t2.getPosition());
+				std::vector<std::pair<int, int>> possiblePos1 = Board::getAdjacents(t1.getPosition(), t1.getOwner().getName());
+				std::vector<std::pair<int, int>> possiblePos2 = Board::getAdjacents(t2.getPosition(), t2.getOwner().getName());
 
 				// Chercher une case libre pour chaque token
 				std::pair<int, int> newPos1 = board.searchEmptyCell(possiblePos1);
