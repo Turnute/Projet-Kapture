@@ -285,15 +285,20 @@ namespace kpt
 		{
 			if (f->update())
 			{
-				std::pair<int, int> currentPos = f->getPosition();
-				std::pair<int, int> originPos = f->getOrigin();
-
-				// On retire explicitement le flag de sa position actuelle
-				board.seek(currentPos)->loseFlag();
+				// Pour chaque case du plateau, on vérifie si elle contient notre drapeau
+				for (int x = 0; x < board.getWidth(); x++) {
+					for (int y = 0; y < board.getHeight(); y++) {
+						cell* currentCell = board.seek(std::make_pair(x, y));
+						if (currentCell->getFlag() == f) {
+							// On a trouvé le drapeau, on peut le retirer
+							currentCell->loseFlag();
+							break;
+						}
+					}
+				}
 
 				// On place le flag à sa position d'origine
-				board.seek(originPos)->setFlag(f);
-
+				board.seek(f->getOrigin())->setFlag(f);
 				f->reset();
 			}
 		}

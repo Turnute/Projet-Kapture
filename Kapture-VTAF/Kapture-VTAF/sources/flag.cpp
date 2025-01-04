@@ -18,7 +18,7 @@ namespace kpt
 
 	bool flag::update()
 	{
-		if (isDropped && cmpt == 0)
+		if (isDropped && cmpt == 0 && position != origin)
 		{
 			this->position = this->origin;
 			this->isDropped = false;
