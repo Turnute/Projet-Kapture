@@ -2,12 +2,16 @@
 //  Vincent     Antony
 
 #include <iostream>
+#include <windows.h>
 #include "./headers/GameManager.h"
 
 int main(int argc, char* argv[])
 {
+	SetConsoleOutputCP(CP_UTF8);
+	SetConsoleCP(CP_UTF8);
+
 	try {
-		std::string configFile = argc > 1 ? argv[1] : "Kapture.txt";
+		std::string configFile = argc > 1 ? argv[1] : "../../Kapture.txt";
 		kpt::GameManager game(configFile);
 
 		game.gameLoop();

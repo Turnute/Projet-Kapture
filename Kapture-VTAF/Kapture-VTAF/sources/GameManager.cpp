@@ -2,7 +2,6 @@
 //  Vincent     Antony
 
 #include "../headers/GameManager.h"
-
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -42,112 +41,120 @@ namespace kpt
 
 	void GameManager::battle(token& t1, token& t2)
 	{
-		if (t1.getOwner() == t2.getOwner())
-			return;
-		else
+		std::cout << "Combat initié entre "
+			<< t1.getName() << " & " << t2.getName()
+			<< "... ";
+
+		// Récupère le résultat de la méthode de bataille
+		int battleResult = t1.battle(t2);
+
+		switch (battleResult)
 		{
-			std::cout << "Combat initié entre "
-				<< t1.getName() << " & " << t2.getName()
-				<< "... ";
-			// Déterminer quel token appartient à quel joueur
-			token* player1Token = nullptr;
-			token* player2Token = nullptr;
-
-			if (t1.isOwnedBy(players[0])) {
-				player1Token = &t1;
-				player2Token = &t2;
-			}
-			else {
-				player1Token = &t2;
-				player2Token = &t1;
-			}
-
-			switch (t1.battle(t2))
+		case 0:	// Égalité 
+			switch (t1.getType())
 			{
-			// Égalité : comportement dépendant du type
-			case 0:
-				switch (t1.getType())
-				{
-				case SCOUT:
-					// On en fait rien
-					break;
-				case ELITE:
-				{
-					std::cout << "Égalité !" << std::endl;
-					// Les deux unités reculent d'une case (si possible)
-					std::vector<std::pair<int, int>> possiblePos1 = Board::getAdjacents(t1.getPosition());
-					std::vector<std::pair<int, int>> possiblePos2 = Board::getAdjacents(t2.getPosition());
-
-					// Chercher une case libre pour chaque token
-					std::pair<int, int> newPos1 = board.searchEmptyCell(possiblePos1);
-					std::pair<int, int> newPos2 = board.searchEmptyCell(possiblePos2);
-
-					// Déplacer les tokens
-					if (newPos1.first != -1)
-					{
-						moveToken(player1Token->getPosition(), newPos1);
-					}
-
-					if (newPos2.second != -1)
-						moveToken(player2Token->getPosition(), newPos2);
-					break;
-				}
-				case FODDER:
-				{
-					// Chance aléatoire que l'un ou l'autre perde
-					int randomNb = rand() % 2;
-					if (randomNb == 0)
-					{
-						std::cout << player1Token->getName() << " gagne !" << std::endl;
-						resetToken(*player2Token);
-					}
-					else
-					{
-						std::cout << player2Token->getName() << " gagne !" << std::endl;
-						resetToken(*player1Token);
-					}
-					break;
-				}
-				}
+			case SCOUT:
+				std::cout << "Les éclaireurs s'évitent !" << std::endl;
 				break;
+			case ELITE:
+			{
+				std::cout << "Égalité entre les troupes d'élite !" << std::endl;
+				// Les deux unités reculent d'une case (si possible)
+				std::vector<std::pair<int, int>> possiblePos1 = Board::getAdjacents(t1.getPosition());
+				std::vector<std::pair<int, int>> possiblePos2 = Board::getAdjacents(t2.getPosition());
 
-			// Le joueur 1 gagne
-			case 1:
-				std::cout << player1Token->getName() << " gagne !" << std::endl;
-				resetToken(*player2Token);
-			// Le joueur 2 gagne
-			case 2:
-				std::cout << player2Token->getName() << " gagne !" << std::endl;
-				resetToken(*player1Token);
-			default:
+				// Chercher une case libre pour chaque token
+				std::pair<int, int> newPos1 = board.searchEmptyCell(possiblePos1);
+				std::pair<int, int> newPos2 = board.searchEmptyCell(possiblePos2);
+
+				// Déplacer les tokens si possible, sinon reset à l'origine
+				if (newPos1.first != -1)
+					moveToken(t1.getPosition(), newPos1);
+				else
+					resetToken(t1);
+
+				if (newPos2.first != -1)
+					moveToken(t2.getPosition(), newPos2);
+				else
+					resetToken(t2);
+
 				break;
 			}
+			case FODDER:
+			{
+				std::cout << "Combat aléatoire entre chairs à canon !" << std::endl;
+				if (rand() % 2 == 0) {
+					std::cout << t1.getName() << " gagne !" << std::endl;
+					resetToken(t2);
+				}
+				else {
+					std::cout << t2.getName() << " gagne !" << std::endl;
+					resetToken(t1);
+				}
+				break;
+			}
+			}
+			break;
+
+		case 1:	// T1 gagne
+			std::cout << t1.getName() << " gagne !" << std::endl;
+			resetToken(t2);
+			break;
+		case 2:	// T2 gagne
+			std::cout << t2.getName() << " gagne !" << std::endl;
+			resetToken(t1);
+			break;
 		}
 	}
 
 	void GameManager::resetToken(token& t_token)
 	{
-		std::pair<int, int> location = t_token.getPosition();
+		std::pair<int, int> currentLocation = t_token.getPosition();
+		std::pair<int, int> originLocation = t_token.getOrigin();
 
+		// Gestion du drapeau si le token en porte un
 		if (t_token.hasFlag())
 		{
-			// Transfère la propriété du flag du token à la case, et initie son compteur.
-			board.seek(location)->setFlag(t_token.getFlag());
+			flag* currentFlag = t_token.getFlag();
+			board.seek(currentLocation)->setFlag(currentFlag);
 			t_token.dropFlag();
 		}
 
-		moveToken(location, t_token.getOrigin());
+		// On s'assure que la cellule d'origine est libre
+		cell* originCell = board.seek(originLocation);
+		if (originCell->getToken() != nullptr) {
+			std::cout << "Erreur : position d'origine occupée !" << std::endl;
+			return;
+		}
+
+		board.seek(currentLocation)->moveTokenTo(originCell);
 	}
 
-	void GameManager::moveToken(const std::pair<int, int>& token, const std::pair<int, int>& destination)
+	void GameManager::moveToken(const std::pair<int, int>& origin, const std::pair<int, int>& destination)
 	{
-		if (token == destination)
+		if (origin == destination) {
 			std::cout << "Vous êtes déjà sur cette case !" << std::endl;
-		else
-		{
-			board.moveToken(token, destination);
-			checkSurroundings(destination);
+			return;
 		}
+
+		cell* originCell = board.seek(origin);
+		cell* destCell = board.seek(destination);
+
+		// Vérifie la présence d'un token à l'origine
+		if (!originCell->getToken()) {
+			std::cout << "Aucune unité à déplacer!" << std::endl;
+			return;
+		}
+
+		// Vérifie que la destination est libre
+		if (destCell->getToken()) {
+			std::cout << "Case de destination déjà occupée!" << std::endl;
+			return;
+		}
+
+		// Déplace le token
+		originCell->moveTokenTo(destCell);
+		checkSurroundings(destination);
 	}
 
 	void GameManager::checkSurroundings(std::pair<int, int> position)
@@ -156,6 +163,9 @@ namespace kpt
 		const cell* currentCell = board.seek(position.first, position.second);
 		token* currentToken = currentCell->getToken();
 		if (currentToken == nullptr) return;
+
+		// S'assure d'un seul combat par tour
+		bool hasBattled = false;
 
 		for (int x = -1; x <= 1; x++)
 		{
@@ -171,7 +181,6 @@ namespace kpt
 					continue;
 
 				// Rajoute la case à la liste de visite du joueur associé
-				// Debug : std::cout << "Updating cell " << newX << "." << newY << std::endl;
 				currentToken->getOwner().addVisitedCell(newPos);
 
 				// Gère le contenu de la case
@@ -182,10 +191,16 @@ namespace kpt
 
 				if (c->getFlag() != nullptr)
 				{
-					token->takeFlag(*c->getFlag());
-					//c->getFlag()
+					currentToken->takeFlag(*c->getFlag());
 				}
-				else if (token != nullptr) battle(*currentToken, *token);
+				else if (token != nullptr && !hasBattled)
+				{
+					if (!(currentToken->getOwner() == token->getOwner()))
+					{
+						battle(*currentToken, *token);
+						hasBattled = true;  // Empêche d'autres combats pendant ce tour
+					}
+				}
 			}
 		}
 	}

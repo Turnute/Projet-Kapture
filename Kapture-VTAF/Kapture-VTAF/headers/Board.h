@@ -55,20 +55,6 @@ namespace kpt
 				return &cells[posx + posy * height];
 		}
 
-		void moveToken(const std::pair<int, int>& pair, const std::pair<int, int>& destination)
-		{
-			cell* origin = seek(pair);
-			cell* dest = seek(destination);
-
-			if (origin->getToken() == nullptr)
-				throw std::invalid_argument("No token at origin");
-
-			if (dest->getToken() != nullptr)
-				throw std::invalid_argument("Destination already occupied");
-
-			origin->moveTokenTo(dest);
-		}
-
 		void setToken(const std::pair<int, int>& pos, token* t) {
 			cell* c = seek(pos);
 			if (c) c->setToken(t);
@@ -124,16 +110,12 @@ namespace kpt
 
 		static std::vector<std::pair<int, int>> const getAdjacents(const std::pair<int, int>& pos)
         {
-            std::vector<std::pair<int, int>> adjacents;
-			for (int x = -1; x <= 1; x++)
-			{
-				for (int y = -1; y <= 1; y++)
-                {
-                    if (x == 0 && y == 0) continue;
-                    adjacents.emplace_back(pos.first + x, pos.second + y);
-                }
-			}
-            return adjacents;
+			std::vector<std::pair<int, int>> adj;
+			return adj;
+			// TODO :
+			// pos = X,Y
+			// SI c'est le joueur 1, alors on renvoie la liste : "(X-1,Y);(X-1,Y-1);(X-1,Y+1)"
+			// SI c'est le joueur 2, alors on renvoie la liste : "(X+1,Y);(X+1,Y+1);(X+1,Y-1)"
         }
 	};
 }
