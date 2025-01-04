@@ -68,13 +68,18 @@ namespace kpt
 				std::pair<int, int> newPos2 = board.searchEmptyCell(possiblePos2);
 
 				// Déplacer les tokens si possible, sinon reset à l'origine
-				if (newPos1.first != -1)
-					moveToken(t1.getPosition(), newPos1);
+				if (newPos1.first != -1) {
+					board.seek(t1.getPosition())->moveTokenTo(board.seek(newPos1));
+					checkSurroundings(newPos1);
+				}
 				else
 					resetToken(t1);
 
 				if (newPos2.first != -1)
-					moveToken(t2.getPosition(), newPos2);
+				{
+					board.seek(t2.getPosition())->moveTokenTo(board.seek(newPos2));
+					checkSurroundings(newPos2);
+				}
 				else
 					resetToken(t2);
 
@@ -152,7 +157,16 @@ namespace kpt
 			return;
 		}
 
-		// Déplace le token
+		token* movingToken = originCell->getToken();
+		if (!movingToken->canMove()) {
+			std::cout << "Cette unité ne peut plus se déplacer ce tour-ci!" << std::endl;
+			return;
+		}
+
+		// Utilise un point de déplacement
+		movingToken->move();
+
+		// Continue avec le déplacement existant
 		originCell->moveTokenTo(destCell);
 		checkSurroundings(destination);
 	}
@@ -245,6 +259,7 @@ namespace kpt
 
 	void GameManager::playerTurn(const Player& player)
 	{
+		// Boucle d'input
 		while (true)
 		{
 			display();
@@ -261,9 +276,12 @@ namespace kpt
 				while (true)
 				{
 					token = askCoordinates("Coordonnées de l'unité à bouger (Ligne,Colonne): ");
-					const kpt::token* token1 = board.seek(token)->getToken();
-					if (token1 != nullptr && token1->isOwnedBy(player))
+					const kpt::token* selected_token = board.seek(token)->getToken();
+					if (selected_token != nullptr && selected_token->isOwnedBy(player)) {
+						int remaining_moves = selected_token->getMaxTravel() - selected_token->getCurrentTravel();
+						std::cout << "Cette unité peut encore se déplacer de " << remaining_moves << " cases ce tour-ci." << std::endl;
 						break;
+					}
 					std::cout << "Aucune unité à cet emplacement" << std::endl;
 				}
 				while (true)
@@ -279,18 +297,21 @@ namespace kpt
 			else std::cout << "Input non valide !" << std::endl;
 		}
 
-		// Update les flags à la fin du tour
+		// Reset des points de déplacement
+		for (token* t : player.getTokens()) {
+			t->resetTravel();
+		}
+
+		// Update des flags
 		std::vector<flag*> flags = board.seekFlags();
 		for (flag* f : flags)
 		{
 			if (f->update())
 			{
-				// Pour chaque case du plateau, on vérifie si elle contient notre drapeau
 				for (int x = 0; x < board.getWidth(); x++) {
 					for (int y = 0; y < board.getHeight(); y++) {
 						cell* currentCell = board.seek(std::make_pair(x, y));
 						if (currentCell->getFlag() == f) {
-							// On a trouvé le drapeau, on peut le retirer
 							currentCell->loseFlag();
 							break;
 						}
@@ -337,7 +358,7 @@ namespace kpt
 			{
 				if (t->hasFlag() && t->getPosition() == t->getOrigin())
 				{
-					std::cout << std::endl << "Victoire du " << player.getName() << " !" << std::endl;
+					std::cout << std::endl << "Victoire " << player.getName() << " !" << std::endl;
 					return;
 				}
 			}

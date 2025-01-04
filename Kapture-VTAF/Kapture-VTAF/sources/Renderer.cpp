@@ -38,6 +38,10 @@ namespace kpt
         const int width = dim.first;
         const int heigth = dim.second;
 
+        std::cout << std::endl 
+            << "========== Tour " << (*players)[currentPlayer].getName() << " ==========" 
+            << std::endl << std::endl;
+
         std::cout << std::setw(6);
         std::string bar = "  ";
         for (int i = 0; i < width; i++) {

@@ -43,6 +43,13 @@ namespace kpt
 		Player& getOwner() { return const_cast<Player&>(owner); }
 		flag* getFlag() const { return f_flag; }
 		bool hasFlag() const { return f_flag != nullptr; }
+		const int getMaxTravel() const { return max_travel; }
+
+		int getCurrentTravel() const { return curr_travel; }
+		bool canMove() const { return curr_travel < max_travel; }
+		void move() { curr_travel++; }
+		void resetTravel() { curr_travel = 0; }
+
 		void dropFlag()
 		{
 			f_flag->setPosition(position);
