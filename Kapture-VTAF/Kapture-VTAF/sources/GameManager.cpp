@@ -184,14 +184,19 @@ namespace kpt
 				currentToken->getOwner().addVisitedCell(newPos);
 
 				// Gère le contenu de la case
-				const cell* c = board.seek(newX, newY);
+				cell* c = board.seek(newPos);
 				token* token = c->getToken();
 
 				if (x == 0 && y == 0) continue;
 
 				if (c->getFlag() != nullptr)
 				{
-					currentToken->takeFlag(*c->getFlag());
+					if (c->getFlag()->getOwner() != currentToken->getOwner().getName()) {
+						currentToken->takeFlag(*c->getFlag());
+						if (currentToken->hasFlag()) {
+							c->loseFlag();
+						}
+					}
 				}
 				else if (token != nullptr && !hasBattled)
 				{
@@ -275,11 +280,20 @@ namespace kpt
 		}
 
 		// Update les flags à la fin du tour
-		for (flag* f : board.seekFlags())
+		std::vector<flag*> flags = board.seekFlags();
+		for (flag* f : flags)
 		{
 			if (f->update())
 			{
-				board.resetFlag(f);
+				std::pair<int, int> currentPos = f->getPosition();
+				std::pair<int, int> originPos = f->getOrigin();
+
+				// On retire explicitement le flag de sa position actuelle
+				board.seek(currentPos)->loseFlag();
+
+				// On place le flag à sa position d'origine
+				board.seek(originPos)->setFlag(f);
+
 				f->reset();
 			}
 		}

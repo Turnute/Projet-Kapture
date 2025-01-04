@@ -33,6 +33,7 @@ namespace kpt
     }
 
     void elite::takeFlag(flag& f_flag) {
+        if (f_flag.getOwner() == getOwner().getName()) return;
         assignFlag(f_flag);
     }
 
@@ -45,6 +46,7 @@ namespace kpt
     }
 
     void fodder::takeFlag(flag& f_flag) {
+        if (f_flag.getOwner() == getOwner().getName()) return;
         assignFlag(f_flag);
     }
 

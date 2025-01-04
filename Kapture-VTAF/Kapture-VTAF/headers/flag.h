@@ -23,6 +23,7 @@ namespace kpt
 
 		const std::pair<int, int> getPosition() const { return position; }
 		const std::pair<int, int> getOrigin() const { return origin; }
+		const std::string& getOwner() const { return name; }
 
 		flag& operator=(const flag& other)
 		{

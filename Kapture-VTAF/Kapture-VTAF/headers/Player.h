@@ -63,6 +63,7 @@ namespace kpt
 
 		const std::vector<token*>& getTokens() const { return tokens; }
 		flag& getFlag() { return f_flag; }
+		std::string const getName() const { return name; }
 
 		void addVisitedCell(const std::pair<int, int>& pos);
 		bool hasVisitedCell(int i, int j) const;
