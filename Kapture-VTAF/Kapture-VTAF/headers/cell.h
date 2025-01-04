@@ -32,6 +32,7 @@ namespace kpt
 		void setToken(token* t) { t_token = t; }
 		void loseFlag() { f_flag = nullptr; }
 		void setFlag(flag* f) { f_flag = f; }
+		const enum_cell getType() const { return type; }
 
 		flag* getFlag() const { return f_flag; }
 		bool const isEmpty() const {

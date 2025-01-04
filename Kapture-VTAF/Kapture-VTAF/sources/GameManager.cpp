@@ -158,17 +158,40 @@ namespace kpt
 		}
 
 		token* movingToken = originCell->getToken();
-		if (!movingToken->canMove()) {
-			std::cout << "Cette unité ne peut plus se déplacer ce tour-ci!" << std::endl;
+		// Calcul du coût de déplacement selon le type de case
+		int moveCost = 1; // Case vide par défaut
+		switch (destCell->getType()) {
+		case FOREST:
+			moveCost = 2;
+			break;
+		case RIVER:
+			moveCost = movingToken->getMaxTravel();
+			break;
+		case EMPTY:
+		default:
+			moveCost = 1;
+			break;
+		}
+
+		// Vérifier si le token a assez de points de déplacement
+		int remainingMoves = movingToken->getMaxTravel() - movingToken->getCurrentTravel();
+		if (remainingMoves < moveCost) {
+			std::cout << "Cette unité n'a pas assez de points de déplacement! (Coût: " << moveCost << ", Reste: " << remainingMoves << ")" << std::endl;
 			return;
 		}
 
-		// Utilise un point de déplacement
-		movingToken->move();
+		// Applique le coût du déplacement
+		for (int i = 0; i < moveCost; i++) {
+			movingToken->move();
+		}
 
 		// Continue avec le déplacement existant
 		originCell->moveTokenTo(destCell);
 		checkSurroundings(destination);
+
+		if (!movingToken->canMove()) {
+			std::cout << movingToken->getName() << " n'a plus de points de déplacement pour ce tour." << std::endl;
+		}
 	}
 
 	void GameManager::checkSurroundings(std::pair<int, int> position)
@@ -277,12 +300,18 @@ namespace kpt
 				{
 					token = askCoordinates("Coordonnées de l'unité à bouger (Ligne,Colonne): ");
 					const kpt::token* selected_token = board.seek(token)->getToken();
-					if (selected_token != nullptr && selected_token->isOwnedBy(player)) {
-						int remaining_moves = selected_token->getMaxTravel() - selected_token->getCurrentTravel();
-						std::cout << "Cette unité peut encore se déplacer de " << remaining_moves << " cases ce tour-ci." << std::endl;
-						break;
+					if (selected_token == nullptr || !selected_token->isOwnedBy(player)) {
+						std::cout << "Aucune unité alliée à cet emplacement" << std::endl;
+						continue;
 					}
-					std::cout << "Aucune unité à cet emplacement" << std::endl;
+					if (!selected_token->canMove()) {
+						std::cout << selected_token->getName() << " n'a plus de points de déplacement pour ce tour." << std::endl;
+						continue;
+					}
+					int remaining_moves = selected_token->getMaxTravel() - selected_token->getCurrentTravel();
+					std::cout << "Il reste à " << selected_token->getName() << " "
+						<< remaining_moves << " points de déplacement." << std::endl;
+					break;
 				}
 				while (true)
 				{
