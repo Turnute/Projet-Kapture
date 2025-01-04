@@ -306,7 +306,19 @@ namespace kpt
 
 	bool const GameManager::isOver()
 	{
-		// Check si une unité avec un drapeau se trouve sur la ligne de l'adversaire
+		for (const Player& player : players)
+		{
+			// Parcours les unités du joueur
+			for (const token* t : player.getTokens())
+			{
+				if (t->hasFlag())
+				{
+					// Si l'unité se trouve sur sa position d'origine
+					if (t->getPosition() == t->getOrigin())
+						return true;
+				}
+			}
+		}
 		return false;
 	}
 
@@ -317,6 +329,18 @@ namespace kpt
 			Player& currentPlayer = players[currentPlayerindex];
 			playerTurn(currentPlayer);
 			currentPlayerindex = (currentPlayerindex + 1) % players.size();
+		}
+
+		for (const Player& player : players)
+		{
+			for (const token* t : player.getTokens())
+			{
+				if (t->hasFlag() && t->getPosition() == t->getOrigin())
+				{
+					std::cout << std::endl << "Victoire du " << player.getName() << " !" << std::endl;
+					return;
+				}
+			}
 		}
 	}
 }
