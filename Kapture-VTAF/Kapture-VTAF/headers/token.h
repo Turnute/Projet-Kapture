@@ -19,8 +19,11 @@ namespace kpt
 		int curr_travel;					// Points actuels
 		const std::pair<int, int> origin;	// Position d'origine
 		std::pair<int, int> position;		// Position actuelle
-		flag* f_flag;						// Drapeau (peut être nullptr)
 		const Player& owner;				// Joueur propriétaire (référence constante)
+
+	protected:
+		flag* f_flag;						// Drapeau (peut être nullptr)
+		void assignFlag(flag& f_flag);
 
 	public:
 		token() = delete;							// Constructeur par défaut interdit
@@ -65,9 +68,6 @@ namespace kpt
 
 		// Affichage
 		friend std::ostream& operator<<(std::ostream& out, const token& token);
-
-	protected:
-		void assignFlag(flag& f_flag);
 	};
 
 	class scout : public token {

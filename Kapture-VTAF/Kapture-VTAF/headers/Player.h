@@ -31,6 +31,7 @@ namespace kpt
 		// Surcharge d'opérateurs
 		Player& operator=(const Player& other);
 		bool operator==(const Player& other) const;
+		bool operator!=(const Player & other) const;
 
 		// Getters & Setters
 		std::string const getName() const { return name; }

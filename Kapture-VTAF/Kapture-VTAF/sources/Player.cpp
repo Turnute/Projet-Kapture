@@ -66,6 +66,11 @@ namespace kpt
         return this->name == other.name;
     }
 
+    bool Player::operator!=(const Player& other) const
+    {
+        return !(*this == other);
+    }
+
     // Méthodes
     void Player::addVisitedCell(const std::pair<int, int>& pos)
     {

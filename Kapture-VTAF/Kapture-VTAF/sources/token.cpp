@@ -1,19 +1,20 @@
 //  TOURENNE    FERRY
 //  Vincent     Antony
-
 #include "../headers/token.h"
+#include "../headers/Player.h"
 #include <ostream>
 
-#include "../headers/Player.h"
 
 namespace kpt
 {
     // TOKEN METHODES ======================
     void token::dropFlag()
     {
-        f_flag->setPosition(position);
-        f_flag->drop();
-        f_flag = nullptr;
+        if (f_flag != nullptr) {
+            f_flag->setPosition(position);
+            f_flag->drop();
+            f_flag = nullptr;
+        }
     }
 
     bool token::isOwnedBy(const Player& player) const
