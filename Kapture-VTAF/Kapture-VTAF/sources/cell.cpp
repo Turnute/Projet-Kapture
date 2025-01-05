@@ -6,24 +6,16 @@
 
 namespace kpt
 {
-    void cell::moveTokenTo(cell* cell)
-    {
-        this->t_token->setPosition(
-            std::make_pair(cell->coords.second, cell->coords.first)
-        );
-        cell->t_token = this->t_token;
-        this->t_token = nullptr;
-    }
-
+    // Constructeurs & destructeur
     cell::cell(
-        const std::pair<int, int>& coords, 
-        const enum_cell& type, 
+        const std::pair<int, int>& coords,
+        const enum_cell& type,
         token* t_token,
         flag* f_flag
     ) :
-        coords(coords), 
-        type(type), 
-        t_token(t_token), 
+        coords(coords),
+        type(type),
+        t_token(t_token),
         f_flag(f_flag) {}
 
     cell::cell(const cell& other) :
@@ -34,6 +26,22 @@ namespace kpt
 
     cell::~cell() {}
 
+    // Méthodes
+    bool const cell::isEmpty() const
+    {
+        return (t_token == nullptr && f_flag == nullptr);
+    }
+
+    void cell::moveTokenTo(cell* cell)
+    {
+        this->t_token->setPosition(
+            std::make_pair(cell->coords.second, cell->coords.first)
+        );
+        cell->t_token = this->t_token;
+        this->t_token = nullptr;
+    }
+
+    // Affichage
     std::ostream& operator<<(std::ostream& out, const cell& cell)
     {
         if (cell.t_token)

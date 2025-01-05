@@ -19,43 +19,45 @@ namespace kpt
 		int curr_travel;					// Points actuels
 		const std::pair<int, int> origin;	// Position d'origine
 		std::pair<int, int> position;		// Position actuelle
-		flag* f_flag;					// Drapeau (peut être nullptr)
+		flag* f_flag;						// Drapeau (peut être nullptr)
 		const Player& owner;				// Joueur propriétaire (référence constante)
 
 	public:
-		token(const enum_token& type, const std::string& name, int max_travel, const std::pair<int, int>& origin, const Player& owner)
-			: type(type), name(name), max_travel(max_travel), curr_travel(0), origin(origin), position(origin), f_flag(nullptr), owner(owner) {}
-
 		token() = delete;							// Constructeur par défaut interdit
 		token(const token&) = delete;				// Copie interdite
 		token& operator=(const token&) = delete;	// Affectation interdite
+
+		// Constructeurs & Destructeur
+		token(const enum_token& type, const std::string& name, 
+			int max_travel, const std::pair<int, int>& origin, 
+			const Player& owner
+		) : type(type), name(name), 
+			max_travel(max_travel), curr_travel(0), 
+			origin(origin), position(origin), 
+			f_flag(nullptr), owner(owner) {}
 
 		virtual ~token() {
 			f_flag = nullptr;
 		}
 
-		// Getters
+		// Getters & Setters
 		const enum_token getType() const { return type; }
 		const std::string& getName() const { return name; }
+		const int getMaxTravel() const { return max_travel; }
+		int getCurrentTravel() const { return curr_travel; }
 		const std::pair<int, int> getOrigin() const { return origin; }
 		const std::pair<int, int> getPosition() const { return position;  }
 		void setPosition(const std::pair<int, int> pos) { position = pos; }
-		Player& getOwner() { return const_cast<Player&>(owner); }
 		flag* getFlag() const { return f_flag; }
-		bool hasFlag() const { return f_flag != nullptr; }
-		const int getMaxTravel() const { return max_travel; }
+		Player& getOwner() { return const_cast<Player&>(owner); }
 
-		int getCurrentTravel() const { return curr_travel; }
+		// Méthodes
+		bool hasFlag() const { return f_flag != nullptr; }
+		void dropFlag();
 		bool canMove() const { return curr_travel < max_travel; }
 		void move() { curr_travel++; }
 		void resetTravel() { curr_travel = 0; }
-
-		void dropFlag()
-		{
-			f_flag->setPosition(position);
-			f_flag->drop();
-			f_flag = nullptr;
-		}
+		bool isOwnedBy(const Player& player) const;
 
 		// Méthodes à redéfinir
 		virtual int battle(const token& other) = 0;	// Renvoie le résultat du combat (0 égalité, 1 victoire, 2 défaite)
@@ -63,7 +65,6 @@ namespace kpt
 
 		// Affichage
 		friend std::ostream& operator<<(std::ostream& out, const token& token);
-		bool isOwnedBy(const Player& player) const;
 
 	protected:
 		void assignFlag(flag& f_flag);
@@ -87,7 +88,6 @@ namespace kpt
 			: token(ELITE, name, 3, origin, owner) {}
 
 		int battle(const token& other) override;
-
 		void takeFlag(flag& f_flag) override;
 	};
 
@@ -97,7 +97,6 @@ namespace kpt
 			: token(FODDER, name, 2, origin, owner) {}
 
 		int battle(const token& other) override;
-
 		void takeFlag(flag& f_flag) override;
 	};
 }

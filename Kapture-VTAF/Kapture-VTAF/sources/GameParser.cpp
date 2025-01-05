@@ -64,6 +64,8 @@ namespace kpt
 			parsePlayerLine(line, currentPlayer);
 		}
 	}
+
+	// Getters
 	std::vector<enum_cell> const GameParser::getCells()
 	{
 		return cell_types;
@@ -81,6 +83,7 @@ namespace kpt
 		return flag_locations.at(i);
 	}
 	
+	// Parsing d'un fichier
 	enum_cell const GameParser::parseCell(const std::string& str)
 	{
 		if (str == "empty")
@@ -116,7 +119,6 @@ namespace kpt
 
 		return std::make_pair<int, int>(std::stoi(x), std::stoi(y));
 	}
-	
 	void GameParser::parsePlayerLine(const std::string& line, const int& player)
 	{
 		size_t endType = line.find(':');

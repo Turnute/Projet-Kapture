@@ -138,7 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="sources\Board.cpp" />
     <ClCompile Include="sources\cell.cpp" />
     <ClCompile Include="sources\flag.cpp" />
     <ClCompile Include="sources\GameManager.cpp" />

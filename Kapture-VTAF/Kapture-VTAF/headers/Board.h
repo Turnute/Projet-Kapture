@@ -9,10 +9,14 @@
 
 namespace kpt
 {
-	template <int width, int height> class T_Board
+	// Classe générique
+	template <int width, int height>
+	class T_Board
 	{
-		std::vector<cell> cells;	// Plateau (vector de vector de cases)
+		std::vector<cell> cells;	// Plateau (vecteur de cases)
+
 	public:
+		// Constructeurs
 		T_Board() : cells() {}
 
 		T_Board(const std::vector<enum_cell>& cells)
@@ -34,11 +38,29 @@ namespace kpt
 			}
 		}
 
+		// Getters & Setters
 		std::pair<int, int> const getDimensions() const
 		{
 			return std::make_pair(width, height);
 		}
 
+		int const getWidth() const { return width; }
+		int const getHeight() const { return height; }
+
+		// Méthodes
+		// Place un token dans une case
+		void setToken(const std::pair<int, int>& pos, token* t) {
+			cell* c = seek(pos);
+			if (c) c->setToken(t);
+		}
+
+		// Place un flag dans une case
+		void setFlag(const std::pair<int, int>& pos, flag* f) {
+			cell* c = seek(pos);
+			if (c) c->setFlag(f);
+		}
+
+		// Cherche une case à partir de ses coordonnées
 		cell* seek(const std::pair<int, int>& pos)
 		{
 			if (pos.first < 0 || pos.first >= width || pos.second < 0 || pos.second >= height)
@@ -47,6 +69,7 @@ namespace kpt
 				return &cells[pos.first+pos.second*height];
 		}
 
+		// Cherche une case en lecture seule
 		const cell* seek(const int& posx, const int& posy) const
 		{
 			if (posx < 0 || posx >= width || posy < 0 || posy >= height)
@@ -54,25 +77,14 @@ namespace kpt
 			else
 				return &cells[posx + posy * height];
 		}
-
-		void setToken(const std::pair<int, int>& pos, token* t) {
-			cell* c = seek(pos);
-			if (c) c->setToken(t);
-		}
-		void setFlag(const std::pair<int, int>& pos, flag* f) {
-			cell* c = seek(pos);
-			if (c) c->setFlag(f);
-		}
-
-		int const getWidth() const { return width; }
-		int const getHeight() const { return height; }
-
+		
+		// Vérifie si une position est hors du plateau
 		bool const outOfBonds(std::pair<int, int> pos) const
 		{
 			return (pos.first < 0 || pos.second < 0 || pos.first >= getWidth() || pos.second >= getHeight());
 		}
 
-		// Search for an empty cell within a list of positions
+		// Cherche une cellule vide parmi une liste de positions
 		std::pair<int, int> const searchEmptyCell(const std::vector<std::pair<int, int>> locations) const {
 			for (const std::pair<int, int>& pos : locations) {
 				if (outOfBonds(pos))
@@ -80,9 +92,11 @@ namespace kpt
 				else if (seek(pos.first, pos.second)->isEmpty())
 					return pos;
 			}
+			// Si on ne trouve pas, on renvoie une position non valide
 			return std::make_pair(-1, -1);
 		}
 
+		// Retourne une liste de tous les flags présents sur le plateau
 		std::vector<flag*> seekFlags() {
 			std::vector<flag*> flags;
 			for (cell& c : cells) {
@@ -91,6 +105,7 @@ namespace kpt
 			return flags;
 		}
 
+		// Réinitialise le flag donné à sa position d'origine
 		void resetFlag(flag* f) {
 			cell* currentCell = seek(f->getPosition());
 			cell* originCell = seek(f->getOrigin());
@@ -99,8 +114,10 @@ namespace kpt
 		}
 	};
 
+	// Classe dérivée à dimensions fixes (10x10)
 	class Board : public T_Board<10, 10> {
 		public:
+			// Constructeurs
 			explicit Board() : T_Board() {}
 
 			explicit Board(const std::vector<enum_cell>& cells)
@@ -108,6 +125,7 @@ namespace kpt
 			{
 			}
 
+			// Retourne les cases adjacentes en fonction de la position et du joueur
 			static std::vector<std::pair<int, int>> const getAdjacents(const std::pair<int, int>& pos, const std::string& player_name)
 			{
 				std::vector<std::pair<int, int>> adj;

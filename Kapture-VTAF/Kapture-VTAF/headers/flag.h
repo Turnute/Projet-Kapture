@@ -17,25 +17,20 @@ namespace kpt
 
 	public:
 		flag(const std::string& player_name, const std::pair<int, int>& origin);
+
+		// Méthodes
 		void drop();	// Met le flag en état "lâché"
 		bool update();	// Méthode de mise à jour
-		void reset();
+		void reset();	// Méthode de reset
 
+		// Getters & Setters
 		const std::pair<int, int> getPosition() const { return position; }
 		const std::pair<int, int> getOrigin() const { return origin; }
 		const std::string& getOwner() const { return name; }
-
-		flag& operator=(const flag& other)
-		{
-			if (this == &other) return *this;
-			this->position = other.position;
-			this->isDropped = other.isDropped;
-			this->cmpt = other.cmpt;
-			//TODO jsp si faut copier le nom aussi vu qu'il est constant
-			return *this;
-		}
-
 		void setPosition(const std::pair<int, int>& pos);
+
+		// Surdéfinition d'Opérateurs
+		flag& operator=(const flag& other);
 
 		// Affichage
 		friend std::ostream& operator<<(std::ostream& out, const flag& flag);

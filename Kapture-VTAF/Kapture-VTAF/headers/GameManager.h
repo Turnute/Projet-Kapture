@@ -17,28 +17,29 @@ namespace kpt
 		std::vector<Player> players;	// Liste des joueurs
 		Board board;					// Plateau de jeu
 		Renderer renderer;				// Affichage
-		int currentPlayerindex;
+		int currentPlayerindex;			// Trace du joueur actif
 
 	public:
 		GameManager(const std::string& filePath);
 
-		// Affrontement entre tokens
-		void battle(token& t1, token& t2);
-		void resetToken(token& t_token);
-
 		// Déroulement d'un tour
 		void moveToken(const std::pair<int, int>& token, const std::pair<int, int>& destination);
 		void checkSurroundings(std::pair<int, int> position);
-		void playerTurn(const Player& player);
+
+		// Affrontement entre tokens
+		void battle(token& t1, token& t2);
+		void resetToken(token& t_token);
 
 		// Check si la partie est finie
 		bool const isOver();
 
 		// Boucle de jeu
 		std::pair<int, int> askCoordinates(const std::string& message);
+		void playerTurn(const Player& player);
 		void gameLoop();
 
-		void display() const { renderer.render(currentPlayerindex); }
+		// Affichage
+		void const display() const { renderer.render(currentPlayerindex); }
 	};
 }
 

@@ -8,6 +8,8 @@
 
 namespace kpt
 {
+	// =============================================================
+	// Constructeur
 	GameManager::GameManager(const std::string& filePath)
 		: currentPlayerindex(0)
 	{
@@ -39,102 +41,8 @@ namespace kpt
 		renderer = Renderer(this->players, this->board);
 	}
 
-	void GameManager::battle(token& t1, token& t2)
-	{
-		std::cout << "Combat initié entre "
-			<< t1.getName() << " & " << t2.getName()
-			<< "... ";
-
-		// Récupère le résultat de la méthode de bataille
-		int battleResult = t1.battle(t2);
-
-		switch (battleResult)
-		{
-		case 0:	// Égalité 
-			switch (t1.getType())
-			{
-			case SCOUT:
-				std::cout << "Les éclaireurs s'évitent !" << std::endl;
-				break;
-			case ELITE:
-			{
-				std::cout << "Égalité entre les troupes d'élite !" << std::endl;
-				// Les deux unités reculent d'une case (si possible)
-				std::vector<std::pair<int, int>> possiblePos1 = Board::getAdjacents(t1.getPosition(), t1.getOwner().getName());
-				std::vector<std::pair<int, int>> possiblePos2 = Board::getAdjacents(t2.getPosition(), t2.getOwner().getName());
-
-				// Chercher une case libre pour chaque token
-				std::pair<int, int> newPos1 = board.searchEmptyCell(possiblePos1);
-				std::pair<int, int> newPos2 = board.searchEmptyCell(possiblePos2);
-
-				// Déplacer les tokens si possible, sinon reset à l'origine
-				if (newPos1.first != -1) {
-					board.seek(t1.getPosition())->moveTokenTo(board.seek(newPos1));
-					checkSurroundings(newPos1);
-				}
-				else
-					resetToken(t1);
-
-				if (newPos2.first != -1)
-				{
-					board.seek(t2.getPosition())->moveTokenTo(board.seek(newPos2));
-					checkSurroundings(newPos2);
-				}
-				else
-					resetToken(t2);
-
-				break;
-			}
-			case FODDER:
-			{
-				std::cout << "Combat aléatoire entre chairs à canon !" << std::endl;
-				if (rand() % 2 == 0) {
-					std::cout << t1.getName() << " gagne !" << std::endl;
-					resetToken(t2);
-				}
-				else {
-					std::cout << t2.getName() << " gagne !" << std::endl;
-					resetToken(t1);
-				}
-				break;
-			}
-			}
-			break;
-
-		case 1:	// T1 gagne
-			std::cout << t1.getName() << " gagne !" << std::endl;
-			resetToken(t2);
-			break;
-		case 2:	// T2 gagne
-			std::cout << t2.getName() << " gagne !" << std::endl;
-			resetToken(t1);
-			break;
-		}
-	}
-
-	void GameManager::resetToken(token& t_token)
-	{
-		std::pair<int, int> currentLocation = t_token.getPosition();
-		std::pair<int, int> originLocation = t_token.getOrigin();
-
-		// Gestion du drapeau si le token en porte un
-		if (t_token.hasFlag())
-		{
-			flag* currentFlag = t_token.getFlag();
-			board.seek(currentLocation)->setFlag(currentFlag);
-			t_token.dropFlag();
-		}
-
-		// On s'assure que la cellule d'origine est libre
-		cell* originCell = board.seek(originLocation);
-		if (originCell->getToken() != nullptr) {
-			std::cout << "Erreur : position d'origine occupée !" << std::endl;
-			return;
-		}
-
-		board.seek(currentLocation)->moveTokenTo(originCell);
-	}
-
+	// =============================================================
+	// Déroulement d'un tour
 	void GameManager::moveToken(const std::pair<int, int>& origin, const std::pair<int, int>& destination)
 	{
 		if (origin == destination) {
@@ -246,7 +154,126 @@ namespace kpt
 			}
 		}
 	}
+	
+	// =============================================================
+	// Affrontement entre tokens
+	void GameManager::battle(token& t1, token& t2)
+	{
+		std::cout << "Combat initié entre "
+			<< t1.getName() << " & " << t2.getName()
+			<< "... ";
 
+		// Récupère le résultat de la méthode de bataille
+		int battleResult = t1.battle(t2);
+
+		switch (battleResult)
+		{
+		case 0:	// Égalité 
+			switch (t1.getType())
+			{
+			case SCOUT:
+				std::cout << "Les éclaireurs s'évitent !" << std::endl;
+				break;
+			case ELITE:
+			{
+				std::cout << "Égalité entre les troupes d'élite !" << std::endl;
+				// Les deux unités reculent d'une case (si possible)
+				std::vector<std::pair<int, int>> possiblePos1 = Board::getAdjacents(t1.getPosition(), t1.getOwner().getName());
+				std::vector<std::pair<int, int>> possiblePos2 = Board::getAdjacents(t2.getPosition(), t2.getOwner().getName());
+
+				// Chercher une case libre pour chaque token
+				std::pair<int, int> newPos1 = board.searchEmptyCell(possiblePos1);
+				std::pair<int, int> newPos2 = board.searchEmptyCell(possiblePos2);
+
+				// Déplacer les tokens si possible, sinon reset à l'origine
+				if (newPos1.first != -1) {
+					board.seek(t1.getPosition())->moveTokenTo(board.seek(newPos1));
+					checkSurroundings(newPos1);
+				}
+				else
+					resetToken(t1);
+
+				if (newPos2.first != -1)
+				{
+					board.seek(t2.getPosition())->moveTokenTo(board.seek(newPos2));
+					checkSurroundings(newPos2);
+				}
+				else
+					resetToken(t2);
+
+				break;
+			}
+			case FODDER:
+			{
+				std::cout << "Combat aléatoire entre chairs à canon !" << std::endl;
+				if (rand() % 2 == 0) {
+					std::cout << t1.getName() << " gagne !" << std::endl;
+					resetToken(t2);
+				}
+				else {
+					std::cout << t2.getName() << " gagne !" << std::endl;
+					resetToken(t1);
+				}
+				break;
+			}
+			}
+			break;
+
+		case 1:	// T1 gagne
+			std::cout << t1.getName() << " gagne !" << std::endl;
+			resetToken(t2);
+			break;
+		case 2:	// T2 gagne
+			std::cout << t2.getName() << " gagne !" << std::endl;
+			resetToken(t1);
+			break;
+		}
+	}
+
+	void GameManager::resetToken(token& t_token)
+	{
+		std::pair<int, int> currentLocation = t_token.getPosition();
+		std::pair<int, int> originLocation = t_token.getOrigin();
+
+		// Gestion du drapeau si le token en porte un
+		if (t_token.hasFlag())
+		{
+			flag* currentFlag = t_token.getFlag();
+			board.seek(currentLocation)->setFlag(currentFlag);
+			t_token.dropFlag();
+		}
+
+		// On s'assure que la cellule d'origine est libre
+		cell* originCell = board.seek(originLocation);
+		if (originCell->getToken() != nullptr) {
+			std::cout << "Erreur : position d'origine occupée !" << std::endl;
+			return;
+		}
+
+		board.seek(currentLocation)->moveTokenTo(originCell);
+	}
+
+	// Fin de partie
+	bool const GameManager::isOver()
+	{
+		for (const Player& player : players)
+		{
+			// Parcours les unités du joueur
+			for (const token* t : player.getTokens())
+			{
+				if (t->hasFlag())
+				{
+					// Si l'unité se trouve sur sa position d'origine
+					if (t->getPosition() == t->getOrigin())
+						return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	// =============================================================
+	// Boucle de jeu
 	std::pair<int, int> GameManager::askCoordinates(const std::string& message) {
 		std::pair<int, int> coords;
 
@@ -352,24 +379,6 @@ namespace kpt
 				f->reset();
 			}
 		}
-	}
-
-	bool const GameManager::isOver()
-	{
-		for (const Player& player : players)
-		{
-			// Parcours les unités du joueur
-			for (const token* t : player.getTokens())
-			{
-				if (t->hasFlag())
-				{
-					// Si l'unité se trouve sur sa position d'origine
-					if (t->getPosition() == t->getOrigin())
-						return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	void GameManager::gameLoop()

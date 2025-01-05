@@ -38,6 +38,15 @@ namespace kpt
 		isDropped = false;
 	}
 
+	flag& flag::operator=(const flag& other)
+	{
+		if (this == &other) return *this;
+		this->position = other.position;
+		this->isDropped = other.isDropped;
+		this->cmpt = other.cmpt;
+		return *this;
+	}
+
 	void flag::setPosition(const std::pair<int, int>& pos)
 	{
 		position = pos;

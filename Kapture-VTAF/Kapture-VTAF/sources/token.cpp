@@ -8,6 +8,14 @@
 
 namespace kpt
 {
+    // TOKEN METHODES ======================
+    void token::dropFlag()
+    {
+        f_flag->setPosition(position);
+        f_flag->drop();
+        f_flag = nullptr;
+    }
+
     bool token::isOwnedBy(const Player& player) const
     {
         return player == this->owner;
@@ -18,12 +26,14 @@ namespace kpt
         this->f_flag = &f_flag;
     }
 
+    // SCOUT METHODES ======================
     int scout::battle(const token& other) {
         if (other.getType() == SCOUT || other.hasFlag())
             return 0;
         return 2;
     }
 
+    // ELITE METHODES ======================
     int elite::battle(const token& other) {
         if (this->hasFlag())
             return 2;
@@ -37,6 +47,7 @@ namespace kpt
         assignFlag(f_flag);
     }
 
+    // FODDER METHODES ======================
     int fodder::battle(const token& other) {
         if (this->hasFlag() || other.getType() == ELITE)
             return 2;
@@ -50,6 +61,7 @@ namespace kpt
         assignFlag(f_flag);
     }
 
+    // Affichage
     std::ostream& operator<<(std::ostream& out, const token& token)
     {
         out << token.name;

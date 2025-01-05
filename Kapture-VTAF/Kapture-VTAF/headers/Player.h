@@ -18,54 +18,27 @@ namespace kpt
 		flag f_flag;									// Drapeau
 
 	public:
-		Player(const std::string& name, const std::vector<std::pair<enum_token, std::pair<int, int>>>& tokens,
-		       const std::pair<int, int>& f_flag);
+		// Constructeurs & Destructeur
+		Player() : f_flag(flag("P1", { 0, 0 })) {}
+		Player(
+			const std::string& name, 
+			const std::vector<std::pair<enum_token, std::pair<int, int>>>& tokens,
+			const std::pair<int, int>& f_flag
+		);
+		Player(const Player& other);
+		~Player();
 
-		Player(): f_flag(flag("J1", {0, 0}))
-		{
-		}
+		// Surcharge d'opérateurs
+		Player& operator=(const Player& other);
+		bool operator==(const Player& other) const;
 
-		Player(const Player& other): name(other.name), f_flag(other.f_flag)
-		{
-			if (this == &other) return;
-			for (token* t : other.tokens){
-				tokens.push_back(t);
-			}
-			for (std::pair<int, int> pair : other.visitedCells){
-				visitedCells.push_back(pair);
-			}
-
-		}
-
-		Player& operator=(const Player& other)
-		{
-			if (this == &other) return *this;
-			for (token* t : other.tokens){
-				tokens.push_back(t);
-			}
-			for (std::pair<int, int> pair : other.visitedCells){
-				visitedCells.push_back(pair);
-			}
-			this->f_flag = other.f_flag;
-
-			return *this;
-		}
-		bool operator==(const Player& other) const
-		{
-			return this->name == other.name;
-		}
-
-		~Player()
-		{
-			for (token* t : tokens)
-				delete t;
-		}
-
+		// Getters & Setters
+		std::string const getName() const { return name; }
 		const std::vector<token*>& getTokens() const { return tokens; }
 		flag& getFlag() { return f_flag; }
 		flag const getFlag() const { return f_flag; }
-		std::string const getName() const { return name; }
 
+		// Méthodes
 		void addVisitedCell(const std::pair<int, int>& pos);
 		bool hasVisitedCell(int i, int j) const;
 	};

@@ -16,28 +16,29 @@ namespace kpt
 	{
 		const std::pair<int, int> coords;	// Coordonnées de la case
 		const enum_cell type;				// Type de la case
-		token* t_token;					// Pion sur la case (peut être nullptr)
-		flag* f_flag;					// Drapeau sur la case (peut être nullptr)
+		token* t_token;						// Pion sur la case (peut être nullptr)
+		flag* f_flag;						// Drapeau sur la case (peut être nullptr)
 
 	public:
-		cell() = delete;								// Constructeur par défaut interdit
+		cell() = delete;								// Constructeur sans arguement interdit
 		cell& operator=(const cell& other) = delete;	// Affectation interdite
-		token* getToken() const { return t_token; }
-		void moveTokenTo(cell* cell);
-
+		
+		// Constructeurs & destructeur
 		cell(const std::pair<int, int>& coords, const enum_cell& type, token* t_token, flag* f_flag);
 		cell(const cell& other);
 		~cell();
 
-		void setToken(token* t) { t_token = t; }
-		void loseFlag() { f_flag = nullptr; }
-		void setFlag(flag* f) { f_flag = f; }
-		const enum_cell getType() const { return type; }
+		// Méthodes
+		void loseFlag() { f_flag = nullptr; }	// Retire le flag
+		bool const isEmpty() const;				// Est vide (pas de flag ou token)
+		void moveTokenTo(cell* cell);			// Déplace le token d'une case à l'autre
 
-		flag* getFlag() const { return f_flag; }
-		bool const isEmpty() const {
-			return (t_token == nullptr && f_flag == nullptr);
-		}
+		// Getters & Setters
+		enum_cell const getType() const { return type; }
+		token* getToken() const { return t_token; }
+		flag* const getFlag() const { return f_flag; }
+		void setToken(token* t) { t_token = t; }
+		void setFlag(flag* f) { f_flag = f; }
 
 		friend std::ostream& operator<<(std::ostream& out, const cell& cell);
 	};
