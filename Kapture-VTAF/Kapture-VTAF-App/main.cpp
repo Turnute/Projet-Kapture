@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <windows.h>
-#include "./headers/GameManager.h"
+#include "../Kapture-VTAF/headers/GameManager.h"
 
 int main(int argc, char* argv[])
 {

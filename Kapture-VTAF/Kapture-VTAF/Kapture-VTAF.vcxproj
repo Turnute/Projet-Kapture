@@ -24,6 +24,7 @@
     <ProjectGuid>{4d9ae393-4763-4a07-9646-b2342fdf06ce}</ProjectGuid>
     <RootNamespace>KaptureVTAF</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Kapture-VTAF-Lib</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -137,7 +138,6 @@
     <ClInclude Include="headers\token.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="sources\cell.cpp" />
     <ClCompile Include="sources\flag.cpp" />
     <ClCompile Include="sources\GameManager.cpp" />
