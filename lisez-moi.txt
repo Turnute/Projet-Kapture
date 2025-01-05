@@ -1,0 +1,4 @@
+Pour générer le projet, est fourni le modèle "Kapture.txt".
+
+Vidéo de démonstration :
+https://youtu.be/urSONZGLyCU
