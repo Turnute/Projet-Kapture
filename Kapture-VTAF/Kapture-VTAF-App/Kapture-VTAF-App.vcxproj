@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kapture-VTAF\Kapture-VTAF.vcxproj">
+    <ProjectReference Include="..\Kapture-VTAF-Lib\Kapture-VTAF.vcxproj">
       <Project>{4d9ae393-4763-4a07-9646-b2342fdf06ce}</Project>
     </ProjectReference>
   </ItemGroup>
